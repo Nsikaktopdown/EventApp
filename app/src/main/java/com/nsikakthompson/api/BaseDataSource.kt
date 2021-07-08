@@ -8,7 +8,7 @@ import com.nsikakthompson.data.Result
  */
 abstract class BaseDataSource {
 
-    protected suspend fun <T> getResult(call: suspend () -> Response<T>): com.nsikakthompson.data.Result<T> {
+    protected suspend fun <T> getResult(call: suspend () -> Response<T>): Result<T> {
         try {
             val response = call()
             if (response.isSuccessful) {

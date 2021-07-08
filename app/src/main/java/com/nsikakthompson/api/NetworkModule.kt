@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 var networkModule = module {
-    val HOST = "https://engineering.league.dev/challenge/api/"
+    val HOST = "https://app.ticketmaster.com/discovery/v2/"
     val TAG = "Service"
     val CONNECT_TIMEOUT = 50L
     val READ_TIMEOUT = 50L
