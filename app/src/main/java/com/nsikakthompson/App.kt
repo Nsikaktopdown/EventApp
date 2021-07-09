@@ -1,6 +1,12 @@
 package com.nsikakthompson
 
 import android.app.Application
+import com.nsikakthompson.api.networkModule
+import com.nsikakthompson.data.dataModule
+import com.nsikakthompson.presentation.presentationModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 import timber.log.Timber
 
 class App : Application() {
@@ -8,6 +14,13 @@ class App : Application() {
         super.onCreate()
         if(BuildConfig.DEBUG){
             Timber.plant(Timber.DebugTree())
+        }
+        startKoin {
+            androidLogger()
+            androidContext(applicationContext)
+            modules(listOf(
+                dataModule, networkModule, presentationModule
+            ))
         }
     }
 

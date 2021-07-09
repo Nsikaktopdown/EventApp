@@ -1,8 +1,8 @@
 package com.nsikakthompson.api
 
+import com.nsikakthompson.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.androidx.scope.BuildConfig
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -38,7 +38,7 @@ var networkModule = module {
         retrofit
     }
 
-    factory {
+    single{
         var api  = (get() as Retrofit).create(ApiService::class.java)
         api
     }

@@ -15,22 +15,12 @@ class EventViewModel(
 ) : BaseViewModel<EventState>() {
     var connectivityAvailable: Boolean = true
 
-    fun getEvents() {
-        //uiState.value = EventState.Loading
-        try {
-            val events =
-                eventRepository.observePagedEvents(true, ioScope)
-        } catch (error: Throwable) {
-            uiState.value = EventState.Error(error.message ?: "failed to fetch events")
-        }
 
+    val events by lazy {
+        eventRepository.observePagedEvents(true, ioCoroutineScope)
     }
 
 
-//    fun getEvents(): LiveData<PagedList<EventEntity>> =
-//        eventRepository.observePagedEvents(connectivityAvailable, ioCoroutineScope)
-//
-//
     /**
      * Cancel all coroutines when the ViewModel is cleared.
      */

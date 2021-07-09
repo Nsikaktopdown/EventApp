@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nsikakthompson.R
+import com.nsikakthompson.data.Result
 import com.nsikakthompson.databinding.EventItemBinding
 import com.nsikakthompson.databinding.FragmentEventsBinding
 import com.nsikakthompson.presentation.viewmodel.EventState
@@ -27,13 +28,13 @@ class EventFragment : Fragment() {
         val binding = FragmentEventsBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
-        with(binding.rvEvents){
+        with(binding.rvEvents) {
             layoutManager = LinearLayoutManager(this.context)
             adapter = eventAdapter
         }
 
 
-        viewModel.getEvents()
+
         subscribeUi(binding, eventAdapter)
 
         setHasOptionsMenu(true)
@@ -41,29 +42,10 @@ class EventFragment : Fragment() {
     }
 
     private fun subscribeUi(binding: FragmentEventsBinding, adapter: EventAdapter) {
-        viewModel.uiState().observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is EventState.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.errorGroup.visibility = View.GONE
+        viewModel.events.observe(viewLifecycleOwner, Observer { events ->
+            binding.progressBar.visibility = View.GONE
+            eventAdapter.submitList(events)
 
-                }
-                is EventState.data -> {
-                    Timber.v("${state.events} events")
-                        eventAdapter.submitList(state.events.value)
-                }
-
-                is EventState.Loading -> {
-                    binding.errorGroup.visibility = View.GONE
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-
-                is EventState.Error -> {
-                    binding.errorGroup.visibility = View.VISIBLE
-                    binding.progressBar.visibility = View.GONE
-                    binding.tvError.text =  state.message
-                }
-            }
         })
     }
 }

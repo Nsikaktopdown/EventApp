@@ -1,5 +1,6 @@
 package com.nsikakthompson.data
 
+import com.nsikakthompson.App
 import com.nsikakthompson.cache.AppDatabase
 import com.nsikakthompson.domain.EventRepository
 import kotlinx.coroutines.CoroutineScope
@@ -10,7 +11,11 @@ import org.koin.dsl.module
 var dataModule = module {
 
     single {
-        var database = AppDatabase.getInstance(androidContext())
+        App()
+    }
+
+    single {
+        var database = AppDatabase.getInstance(get())
         database
     }
 
@@ -30,7 +35,7 @@ var dataModule = module {
     single {
        AppPageDataSourceFactory(get(), get(), get())
     }
-    factory {
+    single{
         var eventRepository: EventRepository = EventRepositoryImpl(get(), get())
         eventRepository
     }

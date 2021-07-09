@@ -2,7 +2,7 @@ package com.nsikakthompson.api
 
 import com.google.gson.annotations.SerializedName
 
-data class EventResponse(@SerializedName("_embedded") var embedded: _Embedded)
+data class EventResponse(@SerializedName("_embedded") var _embedded: _Embedded)
 
 data class _Embedded(@SerializedName("events") var events: List<Event>)
 data class Event(
@@ -13,7 +13,7 @@ data class Event(
     @SerializedName("promoter") var promoter: Promoter,
     @SerializedName("info") var info: String,
     @SerializedName("priceRanges") var priceRanges: List<PriceRanges>,
-    @SerializedName("_embedded") var embedded: List<Embedded>
+    @SerializedName("_embedded") var embedded:Embedded
 )
 
 data class Images(@SerializedName("url") var url: String)
@@ -32,7 +32,7 @@ data class PriceRanges(
     @SerializedName("currency") var currency: String,
     @SerializedName("min") var min: Double
 )
-data class Embedded(@SerializedName("venues") var venues: Venues)
+data class Embedded(@SerializedName("venues") var venues: List<Venues>)
 data class Venues(@SerializedName("name") var name: String,
 @SerializedName("state") var state: State)
 data class State(@SerializedName("name") var name: String)

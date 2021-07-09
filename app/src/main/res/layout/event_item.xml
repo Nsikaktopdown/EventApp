@@ -8,65 +8,76 @@
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
+
         <variable
             name="events"
             type="com.nsikakthompson.cache.EventEntity" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="2dp">
+        android:layout_margin="5dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp">
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
-            <ImageView
-                android:id="@+id/ivEventImage"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                <ImageView
+                    android:id="@+id/ivEventImage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    app:imageFromUrl="@{events.imageUrl}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/opensans_semibold"
-                android:textColor="@color/textDark"
-                app:layout_constraintStart_toEndOf="@+id/ivEventImage"
-                app:layout_constraintTop_toTopOf="@+id/ivEventImage"
-                tools:text="NBA Finals Game 3: " />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:text="@{events.name}"
+                    android:textColor="@color/textDark"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/ivEventImage"
+                    app:layout_constraintTop_toTopOf="@+id/ivEventImage"
+                    tools:text="NBA Finals Game 3: " />
 
-            <TextView
-                android:id="@+id/tvDate"
-                android:textColor="@color/textDark"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/tvTime"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                tools:text="23 July 2021" />
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{events.startDateTime}"
+                    android:textColor="@color/textDark"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvTime"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    tools:text="23 July 2021" />
 
-            <TextView
-                android:id="@+id/tvTime"
-                android:textSize="12sp"
-                android:textColor="@color/textLight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivEventImage"
-                app:layout_constraintStart_toStartOf="@+id/tvDate"
-                tools:text="10:00pm - 11:00pm " />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="@{events.startDateTime}"
+                    android:textColor="@color/textLight"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivEventImage"
+                    app:layout_constraintStart_toStartOf="@+id/tvDate"
+                    tools:text="10:00pm - 11:00pm " />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 </layout>

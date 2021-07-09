@@ -22,6 +22,7 @@ class EventPageDataSource(
 
     private var supervisorJob = SupervisorJob()
     private val networkState = MutableLiveData<EventState>()
+    private  val PAGE_SIZE = 10
 
 
     private fun getJobErrorHandler() = CoroutineExceptionHandler { _, e ->
@@ -36,14 +37,14 @@ class EventPageDataSource(
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, EventEntity>) {
         val page = params.key
-        fetchData(page, params.requestedLoadSize) {
+        fetchData(page, PAGE_SIZE ) {
             callback.onResult(it, page + 1)
         }
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, EventEntity>) {
         val page = params.key
-        fetchData(page, params.requestedLoadSize) {
+        fetchData(page, PAGE_SIZE ) {
             callback.onResult(it, page - 1)
         }
     }
@@ -52,17 +53,15 @@ class EventPageDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, EventEntity>
     ) {
-        fetchData(1, params.requestedLoadSize) {
+        fetchData(1, PAGE_SIZE ) {
             callback.onResult(it, null, 2)
         }
     }
 
     private fun fetchData(page: Int, pageSize: Int, callback: (List<EventEntity>) -> Unit) {
-        networkState.value = EventState.Loading
         scope.launch(getJobErrorHandler()+ supervisorJob) {
-            delay(100)
             val response = dataSource.fetchEvents(page, pageSize)
-                val results = response.data!!.embedded.events.map {
+                val results = response.data!!._embedded.events.map {
                     EventEntity(
                         it.id,
                         it.name,
@@ -71,15 +70,13 @@ class EventPageDataSource(
                         it.sales.public.endDateTime,
                         it.promoter.name,
                         it.promoter.description,
-                        it.priceRanges[0].min,
-                        it.priceRanges[0].currency,
-                        it.embedded[0].venues.name,
-                        it.embedded[0].venues.state.name,
+                        if (it.priceRanges != null) it.priceRanges[0].min else 0.0,
+                        if (it.priceRanges != null)  it.priceRanges[0].currency else "",
+                        it.embedded.venues[0].name,
+                        it.embedded.venues[0].state.name,
                         false
-
                     )
                 }
-                networkState.value = EventState.Success
                 dao.insertAll(results)
                 callback(results)
 
