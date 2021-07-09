@@ -1,16 +1,15 @@
-package com.nsikakthompson.presentation.ui
+package com.nsikakthompson.presentation.event_list
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.databinding.EventItemBinding
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 /**
@@ -34,8 +33,8 @@ class EventAdapter : PagedListAdapter<EventEntity, EventAdapter.ViewHolder>(Diff
 
     private fun createOnClickListener(item: EventEntity): View.OnClickListener {
         return View.OnClickListener {
-//            val direction = LegoThemeFragmentDirections.actionThemeFragmentToSetsFragment(id, name)
-//            it.findNavController().navigate(direction)
+            val direction =  EventFragmentDirections.actionEventFragmentToEventDetailsFragment(item.id)
+            it.findNavController().navigate(direction)
         }
     }
 

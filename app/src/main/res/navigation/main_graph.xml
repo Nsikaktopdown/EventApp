@@ -7,7 +7,30 @@
 
     <fragment
         android:id="@+id/eventFragment"
-        android:name="com.nsikakthompson.presentation.ui.EventFragment"
+        android:name="com.nsikakthompson.presentation.event_list.EventFragment"
         android:label="EventFragment"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events" >
+
+
+        <action
+            android:id="@+id/action_eventFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/eventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventDetailsFragment"
+        android:name="com.nsikakthompson.presentation.event_detail.EventDetailsFragment"
+        android:label="content_scrolling"
+        tools:layout="@layout/content_scrolling" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="event"
+            app:argType="com.nsikakthompson.cache.EventEntity"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

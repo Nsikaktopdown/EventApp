@@ -11,13 +11,14 @@ import kotlinx.coroutines.launch
 
 class EventViewModel(
     private var eventRepository: EventRepository,
-    private val ioCoroutineScope: CoroutineScope
+    private val ioCoroutineScope: CoroutineScope,
+    private val isNetworkAvailable: Boolean
 ) : BaseViewModel<EventState>() {
     var connectivityAvailable: Boolean = true
 
 
     val events by lazy {
-        eventRepository.observePagedEvents(true, ioCoroutineScope)
+        eventRepository.observePagedEvents(isNetworkAvailable, ioCoroutineScope)
     }
 
 

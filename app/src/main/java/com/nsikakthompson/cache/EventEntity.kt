@@ -1,10 +1,13 @@
 package com.nsikakthompson.cache
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 
+@Parcelize
 @Entity(tableName = "event")
 data class EventEntity(
     @PrimaryKey
@@ -21,4 +24,4 @@ data class EventEntity(
     var venueState: String,
     var isWish: Boolean
 
-)
+): Parcelable

@@ -1,4 +1,4 @@
-package com.nsikakthompson.presentation.ui
+package com.nsikakthompson.presentation.event_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,15 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.nsikakthompson.R
-import com.nsikakthompson.data.Result
-import com.nsikakthompson.databinding.EventItemBinding
 import com.nsikakthompson.databinding.FragmentEventsBinding
-import com.nsikakthompson.presentation.viewmodel.EventState
 import com.nsikakthompson.presentation.viewmodel.EventViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class EventFragment : Fragment() {
     private val viewModel by viewModel<EventViewModel>()
