@@ -43,8 +43,11 @@ class EventFragment : Fragment() {
 
     private fun subscribeUi(binding: FragmentEventsBinding, adapter: EventAdapter) {
         viewModel.events.observe(viewLifecycleOwner, Observer { events ->
-            binding.progressBar.visibility = View.GONE
-            eventAdapter.submitList(events)
+            if(events.isNotEmpty()){
+                binding.progressBar.visibility = View.GONE
+                eventAdapter.submitList(events)
+            }
+
 
         })
     }

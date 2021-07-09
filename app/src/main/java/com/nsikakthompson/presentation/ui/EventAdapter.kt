@@ -1,5 +1,6 @@
 package com.nsikakthompson.presentation.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.databinding.EventItemBinding
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 /**
  * Adapter for the [RecyclerView] in [LegoThemeFragment].
@@ -20,6 +23,7 @@ class EventAdapter : PagedListAdapter<EventEntity, EventAdapter.ViewHolder>(Diff
         holder.apply {
             bind(createOnClickListener(event!!), event!!)
             itemView.tag = event
+
         }
     }
 
@@ -39,10 +43,14 @@ class EventAdapter : PagedListAdapter<EventEntity, EventAdapter.ViewHolder>(Diff
         private val binding: EventItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        private val INPUT_DATE_FORMAT= "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        @SuppressLint("SimpleDateFormat")
         fun bind(listener: View.OnClickListener, item: EventEntity) {
             binding.apply {
                 clickListener = listener
                 events = item
+                eventDate = SimpleDateFormat("EEE, d MMM yyyy").format(SimpleDateFormat(INPUT_DATE_FORMAT).parse(item.startDateTime))
+                eventTime = "${SimpleDateFormat("hh:mm:ss a").format(SimpleDateFormat(INPUT_DATE_FORMAT).parse(item.startDateTime))} - ${SimpleDateFormat("hh:mm:ss a").format(SimpleDateFormat(INPUT_DATE_FORMAT).parse(item.endDateTime))}"
                 executePendingBindings()
             }
         }

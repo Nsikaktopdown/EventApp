@@ -12,6 +12,12 @@
         <variable
             name="events"
             type="com.nsikakthompson.cache.EventEntity" />
+        <variable
+            name="eventDate"
+            type="String" />
+        <variable
+            name="eventTime"
+            type="String" />
     </data>
 
     <LinearLayout
@@ -42,14 +48,19 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:fontFamily="@font/opensans_semibold"
                     android:text="@{events.name}"
                     android:textColor="@color/textDark"
                     android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.06"
                     app:layout_constraintStart_toEndOf="@+id/ivEventImage"
                     app:layout_constraintTop_toTopOf="@+id/ivEventImage"
                     tools:text="NBA Finals Game 3: " />
@@ -58,9 +69,9 @@
                     android:id="@+id/tvDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{events.startDateTime}"
+                    android:text="@{eventDate}"
                     android:textColor="@color/textDark"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@+id/tvTime"
                     app:layout_constraintStart_toStartOf="@+id/textView"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -71,9 +82,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:text="@{events.startDateTime}"
+                    android:text="@{eventTime}"
                     android:textColor="@color/textLight"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/ivEventImage"
                     app:layout_constraintStart_toStartOf="@+id/tvDate"
                     tools:text="10:00pm - 11:00pm " />
