@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.databinding.EventItemBinding
 import com.nsikakthompson.formatDate
-import com.nsikakthompson.formateTime
+import com.nsikakthompson.formatTime
 import java.text.SimpleDateFormat
 
 /**
@@ -51,7 +51,7 @@ class EventAdapter : PagedListAdapter<EventEntity, EventAdapter.ViewHolder>(Diff
                 clickListener = listener
                 events = item
                 eventDate = item.startDateTime.formatDate()
-                eventTime = "${item.startDateTime.formateTime()} - ${item.endDateTime.formateTime()}"
+                eventTime = "${item.startDateTime.formatTime()} - ${item.endDateTime.formatTime()}"
                 executePendingBindings()
             }
         }

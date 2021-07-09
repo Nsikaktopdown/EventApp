@@ -10,7 +10,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11828774062816616" />
         <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.25" />
         <entry key="app/src/main/res/layout/event_item.xml" value="0.2914185118038136" />
-        <entry key="app/src/main/res/layout/fragment_event_details.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/fragment_event_details.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.16893115942028986" />
         <entry key="app/src/main/res/layout/info_view.xml" value="0.3658280922431866" />
       </map>
