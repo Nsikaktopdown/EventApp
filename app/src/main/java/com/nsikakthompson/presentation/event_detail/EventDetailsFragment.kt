@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.nsikakthompson.R
 import com.nsikakthompson.databinding.FragmentEventDetailsBinding
+import com.nsikakthompson.presentation.viewmodel.EventViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EventDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentEventDetailsBinding
-
+    private val viewModel by viewModel<EventViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,10 +31,7 @@ class EventDetailsFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener {
             Navigation.findNavController(binding.root).popBackStack()
         }
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+
         return binding.root
     }
 
@@ -42,6 +41,9 @@ class EventDetailsFragment : Fragment() {
 
         binding.apply {
             event = eventArgs.event
+        }
+        binding.makeWish.setOnClickListener { view ->
+            viewModel.addOrRemoveFromWishList(true, eventArgs.event?.id!!)
         }
     }
 }

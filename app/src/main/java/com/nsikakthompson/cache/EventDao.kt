@@ -20,4 +20,7 @@ interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(events: List<EventEntity>)
 
+    @Query("UPDATE event SET isWish = :isWish WHERE id = :event_id ")
+    suspend fun updateIsWish(isWish: Boolean, event_id: String)
+
 }

@@ -9,4 +9,5 @@ import kotlinx.coroutines.CoroutineScope
 interface EventRepository {
      fun  observePagedEvents(connectivityAvailable: Boolean,coroutineScope: CoroutineScope):
             LiveData<PagedList<EventEntity>>
+     suspend fun updateIsWish(isWish: Boolean, event_id: String)
 }

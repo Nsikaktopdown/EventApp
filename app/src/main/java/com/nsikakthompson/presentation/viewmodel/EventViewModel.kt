@@ -21,6 +21,11 @@ class EventViewModel(
         eventRepository.observePagedEvents(isNetworkAvailable, ioCoroutineScope)
     }
 
+    fun addOrRemoveFromWishList(isWish: Boolean, event_id: String){
+        viewModelScope.launch {
+            eventRepository.updateIsWish(isWish, event_id)
+        }
+    }
 
     /**
      * Cancel all coroutines when the ViewModel is cleared.

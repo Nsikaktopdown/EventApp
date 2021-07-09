@@ -23,6 +23,10 @@ class EventRepositoryImpl(
             observeRemotePagedEvents(coroutineScope)
         else observeLocalPagedEvents()
 
+    override suspend fun updateIsWish(isWish: Boolean, event_id: String) {
+        return dao.updateIsWish(isWish, event_id)
+    }
+
 
     private fun observeLocalPagedEvents(): LiveData<PagedList<EventEntity>> {
         val dataSourceFactory = dao.getPagedEvents()
