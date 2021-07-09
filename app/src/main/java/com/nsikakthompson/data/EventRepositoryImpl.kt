@@ -45,27 +45,7 @@ class EventRepositoryImpl(
     }
 
 
-    override fun observeEvent() = resultLiveData(
-        databaseQuery = { dao.getEvents() },
-        networkCall = { appRemoteDataSource.fetchEvents(1, 10) },
-        saveCallResult = {
-            dao.insertAll(it._embedded.events.map {
-                EventEntity(
-                    it.id,
-                    it.name,
-                    it.images[0].url,
-                    it.sales.public.startDateTime,
-                    it.sales.public.endDateTime,
-                    it.promoter.name,
-                    it.promoter.description,
-                    it.priceRanges[0].min,
-                    it.priceRanges[0].currency,
-                    it.embedded.venues[0].name,
-                    it.embedded.venues[0].state.name,
-                    false
-                )
-            })
-        })
+
 
 
 }

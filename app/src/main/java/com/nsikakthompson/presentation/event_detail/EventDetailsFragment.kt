@@ -27,4 +27,11 @@ class EventDetailsFragment : Fragment() {
         }
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+      var eventArgs = EventDetailsFragmentArgs.fromBundle(requireArguments())
+        binding.apply {
+            event = eventArgs.event
+        }
+    }
 }

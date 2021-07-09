@@ -72,8 +72,12 @@ class EventPageDataSource(
                         it.promoter.description,
                         if (it.priceRanges != null) it.priceRanges[0].min else 0.0,
                         if (it.priceRanges != null)  it.priceRanges[0].currency else "",
+                        if (it.priceRanges != null)  it.priceRanges[0].type else "Unknown",
                         it.embedded.venues[0].name,
                         it.embedded.venues[0].state.name,
+                        it.embedded.venues[0].boxOfficeInfo?.openHoursDetail?:"",
+                        it.embedded.venues[0].boxOfficeInfo?.acceptedPaymentDetail?:"",
+                        it.embedded.venues[0].boxOfficeInfo?.willCallDetail?:"",
                         false
                     )
                 }

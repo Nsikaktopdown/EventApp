@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.databinding.EventItemBinding
+import com.nsikakthompson.formatDate
+import com.nsikakthompson.formateTime
 import java.text.SimpleDateFormat
 
 /**
@@ -33,7 +35,7 @@ class EventAdapter : PagedListAdapter<EventEntity, EventAdapter.ViewHolder>(Diff
 
     private fun createOnClickListener(item: EventEntity): View.OnClickListener {
         return View.OnClickListener {
-            val direction =  EventFragmentDirections.actionEventFragmentToEventDetailsFragment(item.id)
+            val direction =  EventFragmentDirections.actionEventFragmentToEventDetailsFragment(item.id, item)
             it.findNavController().navigate(direction)
         }
     }
@@ -42,14 +44,14 @@ class EventAdapter : PagedListAdapter<EventEntity, EventAdapter.ViewHolder>(Diff
         private val binding: EventItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val INPUT_DATE_FORMAT= "yyyy-MM-dd'T'HH:mm:ss'Z'"
+
         @SuppressLint("SimpleDateFormat")
         fun bind(listener: View.OnClickListener, item: EventEntity) {
             binding.apply {
                 clickListener = listener
                 events = item
-                eventDate = SimpleDateFormat("EEE, d MMM yyyy").format(SimpleDateFormat(INPUT_DATE_FORMAT).parse(item.startDateTime))
-                eventTime = "${SimpleDateFormat("hh:mm:ss a").format(SimpleDateFormat(INPUT_DATE_FORMAT).parse(item.startDateTime))} - ${SimpleDateFormat("hh:mm:ss a").format(SimpleDateFormat(INPUT_DATE_FORMAT).parse(item.endDateTime))}"
+                eventDate = item.startDateTime.formatDate()
+                eventTime = "${item.startDateTime.formateTime()} - ${item.endDateTime.formateTime()}"
                 executePendingBindings()
             }
         }

@@ -30,9 +30,14 @@ data class Promoter(
 
 data class PriceRanges(
     @SerializedName("currency") var currency: String,
-    @SerializedName("min") var min: Double
+    @SerializedName("min") var min: Double,
+    @SerializedName("type") var type: String
 )
 data class Embedded(@SerializedName("venues") var venues: List<Venues>)
 data class Venues(@SerializedName("name") var name: String,
-@SerializedName("state") var state: State)
+@SerializedName("state") var state: State,
+@SerializedName("boxOfficeInfo")var boxOfficeInfo :  BoxOfficeInfo? )
 data class State(@SerializedName("name") var name: String)
+data class BoxOfficeInfo(@SerializedName("openHoursDetail") var openHoursDetail: String?,
+                         @SerializedName("acceptedPaymentDetail") var acceptedPaymentDetail: String?,
+                         @SerializedName("willCallDetail") var willCallDetail: String?)

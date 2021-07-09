@@ -9,5 +9,4 @@ import kotlinx.coroutines.CoroutineScope
 interface EventRepository {
      fun  observePagedEvents(connectivityAvailable: Boolean,coroutineScope: CoroutineScope):
             LiveData<PagedList<EventEntity>>
-     fun observeEvent(): LiveData<Result<List<EventEntity>>>
 }

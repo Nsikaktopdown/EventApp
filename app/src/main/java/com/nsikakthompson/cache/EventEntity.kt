@@ -20,8 +20,12 @@ data class EventEntity(
     var promoterDesc: String,
     var price: Double,
     var currency: String,
+    var ticketType: String,
     var venueName: String,
     var venueState: String,
+    var openHoursDetail: String,
+    var acceptedPaymentDetail: String,
+    var willCallDetail: String,
     var isWish: Boolean
 
 ): Parcelable
