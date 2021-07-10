@@ -23,8 +23,16 @@ class EventRepositoryImpl(
             observeRemotePagedEvents(coroutineScope)
         else observeLocalPagedEvents()
 
-    override suspend fun updateIsWish(isWish: Boolean, event_id: String) {
-        return dao.updateIsWish(isWish, event_id)
+    override suspend fun addToWishList(eventEntity: EventEntity) {
+        return dao.insert(eventEntity)
+    }
+
+    override suspend fun removeWishList(eventEntity: EventEntity) {
+       return dao.delete(eventEntity)
+    }
+
+    override suspend fun getEventById(event_id: String): EventEntity {
+        return dao.getEventById(event_id)
     }
 
 

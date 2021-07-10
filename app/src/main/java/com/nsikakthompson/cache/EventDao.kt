@@ -1,12 +1,9 @@
 package com.nsikakthompson.cache
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Query
 import com.nsikakthompson.api.Event
 import androidx.paging.DataSource
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.*
 import com.nsikakthompson.data.Result
 
 @Dao
@@ -20,7 +17,16 @@ interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(events: List<EventEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(events: EventEntity)
+
+    @Delete
+    suspend fun delete(events: EventEntity)
+
     @Query("UPDATE event SET isWish = :isWish WHERE id = :event_id ")
     suspend fun updateIsWish(isWish: Boolean, event_id: String)
+
+    @Query("SELECT * FROM event WHERE id = :event_id")
+    suspend fun getEventById(event_id: String): EventEntity
 
 }
