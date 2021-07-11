@@ -21,6 +21,9 @@ class EventViewModel(
     private val _event: MutableLiveData<EventEntity> = MutableLiveData()
     var event: LiveData<EventEntity> = _event
 
+    private val _wishListCount: MutableLiveData<Int> = MutableLiveData()
+    var wishCount: LiveData<Int> = _wishListCount
+
     val events by lazy {
         eventRepository.observePagedEvents(isNetworkAvailable, ioCoroutineScope)
     }
@@ -53,6 +56,12 @@ class EventViewModel(
         }
     }
 
+
+    fun getWishCount(){
+        viewModelScope.launch {
+            _wishListCount.postValue(eventRepository.getCount())
+        }
+    }
     /**
      * Cancel all coroutines when the ViewModel is cleared.
      */

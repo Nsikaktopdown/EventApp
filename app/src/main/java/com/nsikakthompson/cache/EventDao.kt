@@ -29,4 +29,7 @@ interface EventDao {
     @Query("SELECT * FROM event WHERE id = :event_id")
     suspend fun getEventById(event_id: String): EventEntity
 
+    @Query("SELECT COUNT(id) FROM event WHERE isWish = :isWish")
+    suspend fun getCount(isWish: Boolean) : Int
+
 }

@@ -38,6 +38,11 @@ class EventFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        viewModel.getWishCount()
+        super.onStart()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -57,7 +62,11 @@ class EventFragment : Fragment() {
         val item = menu.findItem(R.id.counter)
          item.setActionView(R.layout.wishlist_counter)
         val parent = item.actionView as ConstraintLayout
-        parent.findViewById<TextView>(R.id.tvCount).text = "3"
+       val countView =  parent.findViewById<TextView>(R.id.tvCount)
+        viewModel.wishCount.observe(viewLifecycleOwner, Observer {
+            countView.text = it.toString()
+            activity?.invalidateOptionsMenu()
+        })
         super.onCreateOptionsMenu(menu, inflater)
     }
 

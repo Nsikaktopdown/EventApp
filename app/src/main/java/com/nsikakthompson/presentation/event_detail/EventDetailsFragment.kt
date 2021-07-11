@@ -63,11 +63,12 @@ class EventDetailsFragment : Fragment() {
          */
         viewModel.getEventById(eventEntity?.id!!)
         viewModel.event.observe(viewLifecycleOwner, Observer {
-            binding.apply {
-                event = it
+            if(it != null){
+                binding.apply {
+                    event = it
+                }
             }
 
-            Timber.e("event" + it.toString())
         })
 
         /**

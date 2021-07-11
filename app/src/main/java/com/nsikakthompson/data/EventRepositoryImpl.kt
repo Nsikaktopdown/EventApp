@@ -28,11 +28,15 @@ class EventRepositoryImpl(
     }
 
     override suspend fun removeWishList(eventEntity: EventEntity) {
-       return dao.delete(eventEntity)
+       return dao.updateIsWish(false, eventEntity.id)
     }
 
     override suspend fun getEventById(event_id: String): EventEntity {
         return dao.getEventById(event_id)
+    }
+
+    override suspend fun getCount(): Int {
+        return dao.getCount(true)
     }
 
 
