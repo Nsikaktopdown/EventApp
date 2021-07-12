@@ -16,12 +16,13 @@ class EventRepositoryImpl(
 
     override fun observePagedEvents(
         connectivityAvailable: Boolean,
-        coroutineScope: CoroutineScope
+        coroutineScope: CoroutineScope,
+        isWish: Boolean
     ) =
         if (connectivityAvailable)
 
             observeRemotePagedEvents(coroutineScope)
-        else observeLocalPagedEvents()
+        else observeLocalPagedEvents(isWish)
 
     override suspend fun addToWishList(eventEntity: EventEntity) {
         return dao.insert(eventEntity)
@@ -40,8 +41,8 @@ class EventRepositoryImpl(
     }
 
 
-    private fun observeLocalPagedEvents(): LiveData<PagedList<EventEntity>> {
-        val dataSourceFactory = dao.getPagedEvents()
+    private fun observeLocalPagedEvents(isWish: Boolean): LiveData<PagedList<EventEntity>> {
+        val dataSourceFactory = dao.getPagedEvents(isWish)
         return LivePagedListBuilder(
             dataSourceFactory,
             AppPageDataSourceFactory.pagedListConfig()

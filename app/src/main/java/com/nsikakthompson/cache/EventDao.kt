@@ -11,8 +11,8 @@ interface EventDao {
     @Query("SELECT * FROM event")
     fun getEvents(): LiveData<List<EventEntity>>
 
-    @Query("SELECT * FROM event")
-    fun getPagedEvents(): DataSource.Factory<Int, EventEntity>
+    @Query("SELECT * FROM event WHERE isWish = :isWish")
+    fun getPagedEvents(isWish: Boolean): DataSource.Factory<Int, EventEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(events: List<EventEntity>)

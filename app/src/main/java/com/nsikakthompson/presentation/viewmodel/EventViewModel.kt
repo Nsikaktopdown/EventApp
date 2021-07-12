@@ -25,7 +25,11 @@ class EventViewModel(
     var wishCount: LiveData<Int> = _wishListCount
 
     val events by lazy {
-        eventRepository.observePagedEvents(isNetworkAvailable, ioCoroutineScope)
+        eventRepository.observePagedEvents(isNetworkAvailable, ioCoroutineScope, false)
+    }
+
+    val wishList by lazy {
+        eventRepository.observePagedEvents(false, ioCoroutineScope, true)
     }
 
     fun addWishList(event: EventEntity){
@@ -37,6 +41,7 @@ class EventViewModel(
             }
 
         }
+        getEventById(event.id)
     }
 
     fun removeWishList(event: EventEntity){
@@ -61,6 +66,7 @@ class EventViewModel(
         viewModelScope.launch {
             _wishListCount.postValue(eventRepository.getCount())
         }
+
     }
     /**
      * Cancel all coroutines when the ViewModel is cleared.

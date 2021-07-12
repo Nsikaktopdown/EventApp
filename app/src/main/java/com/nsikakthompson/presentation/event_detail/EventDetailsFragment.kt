@@ -62,6 +62,7 @@ class EventDetailsFragment : Fragment() {
          *  fetch event from db if any
          */
         viewModel.getEventById(eventEntity?.id!!)
+
         viewModel.event.observe(viewLifecycleOwner, Observer {
             if(it != null){
                 binding.apply {

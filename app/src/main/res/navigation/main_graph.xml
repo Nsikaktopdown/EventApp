@@ -18,12 +18,17 @@
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/eventFragment" />
+        <action
+            android:id="@+id/action_eventFragment_to_wishListFragment"
+            app:destination="@id/wishListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/eventDetailsFragment"
         android:name="com.nsikakthompson.presentation.event_detail.EventDetailsFragment"
         android:label="content_scrolling"
-        tools:layout="@layout/content_scrolling" >
+        tools:layout="@layout/fragment_event_details" >
         <argument
             android:name="id"
             app:argType="string" />
@@ -33,4 +38,10 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+    <fragment
+        android:id="@+id/wishListFragment"
+        android:name="com.nsikakthompson.presentation.wishlist.WishListFragment"
+        android:label="WishListFragment"
+        tools:layout="@layout/fragment_wishlist"
+        />
 </navigation>

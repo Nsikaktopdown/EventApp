@@ -7,7 +7,7 @@ import com.nsikakthompson.data.Result
 import kotlinx.coroutines.CoroutineScope
 
 interface EventRepository {
-     fun  observePagedEvents(connectivityAvailable: Boolean,coroutineScope: CoroutineScope):
+     fun  observePagedEvents(connectivityAvailable: Boolean,coroutineScope: CoroutineScope, isWish: Boolean):
             LiveData<PagedList<EventEntity>>
      suspend fun addToWishList(eventEntity: EventEntity)
      suspend fun removeWishList(eventEntity: EventEntity)
