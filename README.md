@@ -48,7 +48,7 @@ This layer holds the business logic. Contains the use cases, in charge of callin
 This layer has the responsibility of selecting the proper data source for the domain layer. It contains the implementations of the repositories declared in the domain layer.
 This includes: 
 * ```Remote Datasource:```: Handles communications with the remote API(REST or GRAPHQL). In this project, it makes ann HTTP call using Retrofit Interface
-* ```Cache Datasource``` : Handles communication with the local storage which is used to cache the evtn data locally
+* ```Cache Datasource``` : Handles communication with the local storage which is used to cache the events data locally
 
 ### Advantages of Using Clean Architecture:
 * Your code will be easily testable.
