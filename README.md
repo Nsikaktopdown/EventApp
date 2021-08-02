@@ -18,6 +18,19 @@ Hey, I created this boilerplate to help Android developers understand how to imp
 * [Mockito](http://site.mockito.org/)
 
 
+## `Screen Shots`
+<table style="padding:10px">
+  <tr>
+    <td> 
+         <img src="https://github.com/Nsikaktopdown/AndroidCleanBase/blob/master/screenshot/Screenshot_20210802_182345.png"  alt="1" width = 279px height = 540px ></td>
+      
+ <td><img src="https://github.com/Nsikaktopdown/AndroidCleanBase/blob/master/screenshot/Screenshot_20210802_182356.png" align="right" alt="2" width = 279px height = 540px></td>
+  
+   <!--<td><img src="./Scshot/trip_end.png" align="right" alt="4" width =  279px height = 496px></td>-->
+  </tr>
+ </table>
+
+
 # Architecture
 
  Here's how the sample project implements it:
