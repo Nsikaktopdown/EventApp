@@ -6,6 +6,7 @@ import androidx.paging.PagedList
 import com.nsikakthompson.api.Event
 import com.nsikakthompson.cache.EventDao
 import com.nsikakthompson.cache.EventEntity
+import com.nsikakthompson.utils.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 
 class AppPageDataSourceFactory constructor (

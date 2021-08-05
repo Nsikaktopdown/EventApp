@@ -34,6 +34,7 @@ class EventFragment : Fragment() {
             layoutManager = LinearLayoutManager(this.context)
             adapter = eventAdapter
         }
+
         subscribeUi(binding)
 
         binding.countLayout.tvCount.setOnClickListener {

@@ -6,15 +6,17 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.domain.EventRepository
+import com.nsikakthompson.domain.usecase.GetEventListUseCase
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class EventViewModel(
+    private var getEventListUseCase: GetEventListUseCase,
     private var eventRepository: EventRepository,
-    private val ioCoroutineScope: CoroutineScope,
-    private val isNetworkAvailable: Boolean
+    private val ioCoroutineScope: CoroutineScope
 ) : BaseViewModel<EventState>() {
 
 
@@ -24,19 +26,26 @@ class EventViewModel(
     private val _wishListCount: MutableLiveData<Int> = MutableLiveData()
     var wishCount: LiveData<Int> = _wishListCount
 
+
     val events by lazy {
-        eventRepository.observePagedEvents(isNetworkAvailable, ioCoroutineScope, false)
+        getEventListUseCase.call(
+            GetEventListUseCase.Params(
+                ioCoroutineScope,
+                false
+            )
+        )
     }
+
 
     val wishList by lazy {
         eventRepository.observePagedEvents(false, ioCoroutineScope, true)
     }
 
-    fun addWishList(event: EventEntity){
+    fun addWishList(event: EventEntity) {
         viewModelScope.launch {
-            try{
+            try {
                 eventRepository.addToWishList(event)
-            }catch(error: Throwable){
+            } catch (error: Throwable) {
                 Timber.e(error.message)
             }
 
@@ -44,36 +53,37 @@ class EventViewModel(
         getEventById(event.id)
     }
 
-    fun removeWishList(event: EventEntity){
+    fun removeWishList(event: EventEntity) {
         viewModelScope.launch {
-            try{
+            try {
                 eventRepository.removeWishList(event)
-            }catch(error: Throwable){
+            } catch (error: Throwable) {
                 Timber.e(error.message)
             }
 
         }
     }
 
-    fun getEventById(event_id: String){
+    fun getEventById(event_id: String) {
         viewModelScope.launch {
             _event.postValue(eventRepository.getEventById(event_id))
         }
     }
 
 
-    fun getWishCount(){
+    fun getWishCount() {
         viewModelScope.launch {
             _wishListCount.postValue(eventRepository.getCount())
         }
 
     }
+
     /**
      * Cancel all coroutines when the ViewModel is cleared.
      */
     override fun onCleared() {
         super.onCleared()
-        ioCoroutineScope.cancel()
+        viewModelScope.cancel()
     }
 
 }

@@ -24,7 +24,7 @@ data class Public(
 )
 
 data class Promoter(
-    @SerializedName("name") var name: String,
+    @SerializedName("name") var name: String?,
     @SerializedName("description") var description: String
 )
 
@@ -34,7 +34,7 @@ data class PriceRanges(
     @SerializedName("type") var type: String
 )
 data class Embedded(@SerializedName("venues") var venues: List<Venues>)
-data class Venues(@SerializedName("name") var name: String,
+data class Venues(@SerializedName("name") var name: String?,
 @SerializedName("state") var state: State,
 @SerializedName("boxOfficeInfo")var boxOfficeInfo :  BoxOfficeInfo? )
 data class State(@SerializedName("name") var name: String)

@@ -7,6 +7,7 @@ import com.nsikakthompson.cache.EventDao
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.cache.resultLiveData
 import com.nsikakthompson.domain.EventRepository
+import com.nsikakthompson.utils.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 
 class EventRepositoryImpl(
@@ -29,7 +30,7 @@ class EventRepositoryImpl(
     }
 
     override suspend fun removeWishList(eventEntity: EventEntity) {
-       return dao.updateIsWish(false, eventEntity.id)
+        return dao.updateIsWish(false, eventEntity.id)
     }
 
     override suspend fun getEventById(event_id: String): EventEntity {
@@ -60,9 +61,6 @@ class EventRepositoryImpl(
             AppPageDataSourceFactory.pagedListConfig()
         ).build()
     }
-
-
-
 
 
 }

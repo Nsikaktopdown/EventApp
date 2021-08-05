@@ -6,6 +6,7 @@ import androidx.paging.PageKeyedDataSource
 import com.nsikakthompson.cache.EventDao
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.presentation.viewmodel.EventState
+import com.nsikakthompson.utils.DispatcherProvider
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -17,7 +18,7 @@ import timber.log.Timber
 class EventPageDataSource(
     private val dataSource: AppRemoteDataSource,
     private val dao: EventDao,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
 ) : PageKeyedDataSource<Int, EventEntity>() {
 
     private var supervisorJob = SupervisorJob()
@@ -59,7 +60,7 @@ class EventPageDataSource(
     }
 
     private fun fetchData(page: Int, pageSize: Int, callback: (List<EventEntity>) -> Unit) {
-        scope.launch(getJobErrorHandler()+ supervisorJob) {
+        scope.launch(getJobErrorHandler() + supervisorJob ) {
             val response = dataSource.fetchEvents(page, pageSize)
                 val results = response.data!!._embedded.events.map {
                     EventEntity(
@@ -68,12 +69,12 @@ class EventPageDataSource(
                         it.images[0].url,
                         it.sales.public.startDateTime,
                         it.sales.public.endDateTime,
-                        it.promoter.name,
+                        it.promoter.name ?: "",
                         it.promoter.description,
                         if (it.priceRanges != null) it.priceRanges[0].min else 0.0,
                         if (it.priceRanges != null)  it.priceRanges[0].currency else "",
                         if (it.priceRanges != null)  it.priceRanges[0].type else "Unknown",
-                        it.embedded.venues[0].name,
+                        it.embedded.venues[0].name ?: "",
                         it.embedded.venues[0].state.name,
                         it.embedded.venues[0].boxOfficeInfo?.openHoursDetail?:"",
                         it.embedded.venues[0].boxOfficeInfo?.acceptedPaymentDetail?:"",
