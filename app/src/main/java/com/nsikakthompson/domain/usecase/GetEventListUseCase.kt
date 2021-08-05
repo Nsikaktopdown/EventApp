@@ -13,7 +13,7 @@ class GetEventListUseCase(
     fun call(input: Params): LiveData<PagedList<EventEntity>> {
 
         return eventRepository.observePagedEvents(
-            isNetworkAvailable,
+            if (!input.isWish) isNetworkAvailable else false,
             input.coroutineScope,
             input.isWish
         )

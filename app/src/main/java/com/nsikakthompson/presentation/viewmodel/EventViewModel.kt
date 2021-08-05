@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.domain.EventRepository
-import com.nsikakthompson.domain.usecase.GetEventListUseCase
+import com.nsikakthompson.domain.usecase.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
@@ -15,7 +15,10 @@ import timber.log.Timber
 
 class EventViewModel(
     private var getEventListUseCase: GetEventListUseCase,
-    private var eventRepository: EventRepository,
+    private var addToWishListUseCase: AddToWishListUseCase,
+    private var removeFromWishListUseCase: RemoveFromWishListUseCase,
+    private var getWishListCountUseCase: GetWishListCountUseCase,
+    private var getEventByIdUseCase: GetEventByIdUseCase,
     private val ioCoroutineScope: CoroutineScope
 ) : BaseViewModel<EventState>() {
 
@@ -38,13 +41,18 @@ class EventViewModel(
 
 
     val wishList by lazy {
-        eventRepository.observePagedEvents(false, ioCoroutineScope, true)
+        getEventListUseCase.call(
+            GetEventListUseCase.Params(
+                ioCoroutineScope,
+                true
+            )
+        )
     }
 
     fun addWishList(event: EventEntity) {
         viewModelScope.launch {
             try {
-                eventRepository.addToWishList(event)
+                addToWishListUseCase.call(event)
             } catch (error: Throwable) {
                 Timber.e(error.message)
             }
@@ -56,7 +64,7 @@ class EventViewModel(
     fun removeWishList(event: EventEntity) {
         viewModelScope.launch {
             try {
-                eventRepository.removeWishList(event)
+                removeFromWishListUseCase.call(event)
             } catch (error: Throwable) {
                 Timber.e(error.message)
             }
@@ -66,14 +74,14 @@ class EventViewModel(
 
     fun getEventById(event_id: String) {
         viewModelScope.launch {
-            _event.postValue(eventRepository.getEventById(event_id))
+            _event.postValue(getEventByIdUseCase.call(event_id))
         }
     }
 
 
     fun getWishCount() {
         viewModelScope.launch {
-            _wishListCount.postValue(eventRepository.getCount())
+            _wishListCount.postValue(getWishListCountUseCase.call())
         }
 
     }

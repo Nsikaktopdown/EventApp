@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat.getSystemService
 
 import android.net.ConnectivityManager
 import androidx.core.content.ContextCompat
-import com.nsikakthompson.domain.usecase.GetEventListUseCase
+import com.nsikakthompson.domain.usecase.*
 import com.nsikakthompson.utils.DispatcherProvider
 
 
@@ -72,4 +72,25 @@ var dataModule = module {
         var getEventUseCase = GetEventListUseCase(get(), get())
         getEventUseCase
     }
+
+    single{
+        var addToWishListUseCase = AddToWishListUseCase(get(), get())
+        addToWishListUseCase
+    }
+
+    single{
+       var removeFromWishListUseCase = RemoveFromWishListUseCase(get(), get())
+        removeFromWishListUseCase
+    }
+
+    single {
+        var getEventByIdUseCase = GetEventByIdUseCase(get(), get())
+        getEventByIdUseCase
+    }
+    single {
+       var getWishListCountUseCase = GetWishListCountUseCase(get(), get())
+        getWishListCountUseCase
+    }
+
+
 }
