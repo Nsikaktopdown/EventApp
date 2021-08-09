@@ -5,14 +5,12 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.nsikakthompson.cache.EventDao
 import com.nsikakthompson.cache.EventEntity
-import com.nsikakthompson.cache.resultLiveData
 import com.nsikakthompson.domain.EventRepository
-import com.nsikakthompson.utils.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 
 class EventRepositoryImpl(
     private var dao: EventDao,
-    private var appRemoteDataSource: AppRemoteDataSource,
+    private var dataSourceFactory: AppPageDataSourceFactory
 ) : EventRepository {
 
     override fun observePagedEvents(
@@ -52,10 +50,6 @@ class EventRepositoryImpl(
 
     private fun observeRemotePagedEvents(ioCoroutineScope: CoroutineScope)
             : LiveData<PagedList<EventEntity>> {
-        val dataSourceFactory = AppPageDataSourceFactory(
-            appRemoteDataSource,
-            dao, ioCoroutineScope
-        )
         return LivePagedListBuilder(
             dataSourceFactory,
             AppPageDataSourceFactory.pagedListConfig()

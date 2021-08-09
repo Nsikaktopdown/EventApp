@@ -2,9 +2,11 @@ package com.nsikakthompson.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.nsikakthompson.cache.EventEntity
+import com.nsikakthompson.data.AppPageDataSourceFactory
 import com.nsikakthompson.domain.EventRepository
 import com.nsikakthompson.domain.usecase.*
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +21,8 @@ class EventViewModel(
     private var removeFromWishListUseCase: RemoveFromWishListUseCase,
     private var getWishListCountUseCase: GetWishListCountUseCase,
     private var getEventByIdUseCase: GetEventByIdUseCase,
-    private val ioCoroutineScope: CoroutineScope
+    private var ioCoroutineScope: CoroutineScope,
+    private var appPageDataSourceFactory: AppPageDataSourceFactory
 ) : BaseViewModel<EventState>() {
 
 
@@ -28,6 +31,8 @@ class EventViewModel(
 
     private val _wishListCount: MutableLiveData<Int> = MutableLiveData()
     var wishCount: LiveData<Int> = _wishListCount
+
+    val networkState: LiveData<NetworkState>? = switchMap(appPageDataSourceFactory.getSource()) { it.getNetworkState() }
 
 
     val events by lazy {
@@ -96,9 +101,16 @@ class EventViewModel(
 
 }
 
-sealed class EventState {
-    object Loading : EventState()
-    object Success : EventState()
-    data class data(val events: LiveData<PagedList<EventEntity>>) : EventState()
-    data class Error(val message: String) : EventState()
+//sealed class EventState {
+//    object Loading : EventState()
+//    object Success : EventState()
+//    data class data(val events: LiveData<PagedList<EventEntity>>) : EventState()
+//    data class Error(val message: String) : EventState()
+//}
+
+enum class EventState {
+    RUNNING,
+    SUCCESS,
+    FAILED
 }
+data class NetworkState constructor(var state: EventState, var message: String? = null )

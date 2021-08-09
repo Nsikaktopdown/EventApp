@@ -34,19 +34,21 @@ var dataModule = module {
         dao
     }
 
-    single{
+    single {
         var dispatcherProvider = DispatcherProvider()
         dispatcherProvider
     }
 
-    single{
+    single {
         var coroutineScope = CoroutineScope(Dispatchers.Default)
         coroutineScope
     }
 
     single {
-        AppRemoteDataSource(get())
+        var appRemoteDataSource = AppRemoteDataSource(get())
+        appRemoteDataSource
     }
+
 
     single {
         AppPageDataSourceFactory(get(), get(), get())
@@ -73,13 +75,13 @@ var dataModule = module {
         getEventUseCase
     }
 
-    single{
+    single {
         var addToWishListUseCase = AddToWishListUseCase(get(), get())
         addToWishListUseCase
     }
 
-    single{
-       var removeFromWishListUseCase = RemoveFromWishListUseCase(get(), get())
+    single {
+        var removeFromWishListUseCase = RemoveFromWishListUseCase(get(), get())
         removeFromWishListUseCase
     }
 
@@ -88,7 +90,7 @@ var dataModule = module {
         getEventByIdUseCase
     }
     single {
-       var getWishListCountUseCase = GetWishListCountUseCase(get(), get())
+        var getWishListCountUseCase = GetWishListCountUseCase(get(), get())
         getWishListCountUseCase
     }
 

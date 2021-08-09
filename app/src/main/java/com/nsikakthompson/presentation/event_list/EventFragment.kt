@@ -3,6 +3,7 @@ package com.nsikakthompson.presentation.event_list
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.MenuItemCompat
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nsikakthompson.R
 import com.nsikakthompson.databinding.FragmentEventsBinding
+import com.nsikakthompson.presentation.viewmodel.EventState
 import com.nsikakthompson.presentation.viewmodel.EventViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -35,6 +37,7 @@ class EventFragment : Fragment() {
             adapter = eventAdapter
         }
 
+        observeNetworkState(binding)
         subscribeUi(binding)
 
         binding.countLayout.tvCount.setOnClickListener {
@@ -57,50 +60,34 @@ class EventFragment : Fragment() {
     private fun subscribeUi(binding: FragmentEventsBinding) {
         viewModel.events.observe(viewLifecycleOwner, Observer { events ->
             if (events.isNotEmpty()) {
-                binding.progressBar.visibility = View.GONE
                 eventAdapter.submitList(events)
             }
 
         })
 
         viewModel.wishCount.observe(viewLifecycleOwner, Observer {
-          binding.countLayout.tvCount.visibility = if(it == 0)  View.GONE else View.VISIBLE
+            binding.countLayout.tvCount.visibility = if (it == 0) View.GONE else View.VISIBLE
             binding.countLayout.tvCount.text = it.toString()
 
         })
 
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.menu_event, menu)
-//        val item = menu.findItem(R.id.counter)
-//        item.setActionView(R.layout.wishlist_counter)
-//        val parent = item.actionView as ConstraintLayout
-//        val countView = parent.findViewById<TextView>(R.id.tvCount)
-//        viewModel.wishCount.observe(viewLifecycleOwner, Observer {
-//            countView.visibility = if(it == 0)  View.GONE else View.VISIBLE
-//            countView.text = it.toString()
-//            activity?.invalidateOptionsMenu()
-//        })
-//
-//        countView.setOnClickListener {
-//           // onOptionsItemSelected(item)
-//            Timber.e("you are clicking me")
-//        }
-//
-//
-//        super.onCreateOptionsMenu(menu, inflater)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            R.id.counter -> {
-//                Timber.e("you are clicking me")
-//                findNavController(this).navigate(EventFragmentDirections.actionEventFragmentToWishListFragment())
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//
-//    }
+
+    private fun observeNetworkState(binding: FragmentEventsBinding) {
+        viewModel.networkState?.observe(viewLifecycleOwner, Observer {
+            when (it.state) {
+                EventState.RUNNING -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                EventState.FAILED -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                }
+                EventState.SUCCESS -> {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        })
+    }
 }

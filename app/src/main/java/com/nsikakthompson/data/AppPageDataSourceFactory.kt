@@ -15,13 +15,16 @@ class AppPageDataSourceFactory constructor (
     private val scope: CoroutineScope
 ) : DataSource.Factory<Int, EventEntity>() {
 
-    private val liveData = MutableLiveData<EventPageDataSource>()
+    private val source = MutableLiveData<EventPageDataSource>()
 
     override fun create(): DataSource<Int, EventEntity> {
         val source = EventPageDataSource(dataSource, dao, scope)
-        this.liveData.postValue(source)
+        this.source.postValue(source)
         return source
     }
+
+
+    fun getSource() = source
 
     companion object {
         private const val PAGE_SIZE = 10
