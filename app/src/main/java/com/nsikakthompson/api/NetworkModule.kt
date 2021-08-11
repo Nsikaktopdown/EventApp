@@ -14,6 +14,7 @@ var networkModule = module {
     val CONNECT_TIMEOUT = 50L
     val READ_TIMEOUT = 50L
     val WRITE_TIMEOUT = 10L
+    val API_KEY = "A4yqiIGWfj9lF4xbP4lwlXA0NRwnckkx"
 
     // lateinit var retrofit: Retrofit
     single {
