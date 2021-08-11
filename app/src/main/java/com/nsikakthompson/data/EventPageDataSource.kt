@@ -11,6 +11,7 @@ import com.nsikakthompson.utils.DispatcherProvider
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
@@ -74,6 +75,8 @@ class EventPageDataSource(
                             message = exception.message ?: "Failed to fetch events"
                         )
                     )
+                }.onCompletion {
+                    networkState.postValue(NetworkState(EventState.SUCCESS))
                 }
                 .collect { response ->
                     val results = response._embedded.events.map {
@@ -81,8 +84,8 @@ class EventPageDataSource(
                             it.id,
                             it.name,
                             it.images[0].url,
-                            it.sales.public.startDateTime,
-                            it.sales.public.endDateTime,
+                            it.sales.public.startDateTime ?: "",
+                            it.sales.public.endDateTime ?: "",
                             it.promoter.name ?: "",
                             it.promoter.description,
                             if (it.priceRanges != null) it.priceRanges[0].min else 0.0,
@@ -98,8 +101,9 @@ class EventPageDataSource(
 
                     }
                     //dao.insertAll(results)
+                    Timber.e("${results.size} result size")
                     callback(results)
-                    networkState.postValue(NetworkState(EventState.SUCCESS))
+
                 }
 
 

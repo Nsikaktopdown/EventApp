@@ -19,8 +19,9 @@ data class Event(
 data class Images(@SerializedName("url") var url: String)
 data class Sales(@SerializedName("public") var public: Public)
 data class Public(
-    @SerializedName("startDateTime") var startDateTime: String,
-    @SerializedName("endDateTime") var endDateTime: String
+    @SerializedName("startDateTime") var startDateTime: String?,
+    @SerializedName("endDateTime") var endDateTime: String?
+
 )
 
 data class Promoter(
