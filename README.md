@@ -33,6 +33,8 @@ This boilerplate with help Android developers understand how structure their pro
 
 # Architecture
 
+![diagram](https://github.com/Nsikaktopdown/AndroidCleanBase/blob/master/screenshot/diagram.png)
+
  Here's how the sample project implements it:
 
 Clean architecture encourages separation of concerns, making the code loosely coupled. This results in a more testable and flexible code. This approach divides the project in 3 modules: presentation, data and domain.
