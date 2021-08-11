@@ -1,7 +1,7 @@
-# Android Clean architecture +  Kotlin Coroutine Boilerplate
+# Android Clean architecture + Paging Library + Kotlin Flow Boilerplate
 
 
-Hey, I created this boilerplate to help Android developers understand how to implement clean architecture in thier projects and a clean way on how to adopt seperation of concerns.
+Hey, I created this boilerplate to help Android developers understand how to implement clean architecture in thier projects and a clean way on how to adopt seperation of concerns. Also handling pagination with Paging Library from Jetpack
 
 
 ## Languages, libraries and tools used
