@@ -20,7 +20,7 @@ import timber.log.Timber
  * Data source for lego sets pagination via paging library
  */
 
-class EventPageDataSource(
+class EventPagedDataSource(
     private val dataSource: AppRemoteDataSource,
     private val dao: EventDao,
     private val scope: CoroutineScope,

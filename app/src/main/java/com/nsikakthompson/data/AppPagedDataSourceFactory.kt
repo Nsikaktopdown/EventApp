@@ -3,10 +3,8 @@ package com.nsikakthompson.data
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PagedList
-import com.nsikakthompson.api.Event
 import com.nsikakthompson.cache.EventDao
 import com.nsikakthompson.cache.EventEntity
-import com.nsikakthompson.utils.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 
 class AppPageDataSourceFactory constructor (
@@ -15,10 +13,10 @@ class AppPageDataSourceFactory constructor (
     private val scope: CoroutineScope
 ) : DataSource.Factory<Int, EventEntity>() {
 
-    private val source = MutableLiveData<EventPageDataSource>()
+    private val source = MutableLiveData<EventPagedDataSource>()
 
     override fun create(): DataSource<Int, EventEntity> {
-        val source = EventPageDataSource(dataSource, dao, scope)
+        val source = EventPagedDataSource(dataSource, dao, scope)
         this.source.postValue(source)
         return source
     }
