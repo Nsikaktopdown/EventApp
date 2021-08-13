@@ -51,8 +51,8 @@ This layer has the responsibility of selecting the proper data source for the do
 This includes: 
 * ```Remote Datasource:```: Handles communications with the remote API(REST or GRAPHQL). In this project, it makes ann HTTP call using Retrofit Interface
 * ```Cache Datasource``` : Handles communication with the local storage which is used to cache the events data locally
-* ```EventDatasource``` : This class manages the actual loading of data for your list from the remote datasource.  Since we have one key per page of Event API data extends ```PageKeyedDataSource``` from the paging library. 
-
+* ```EventPagedDatasource``` : This class manages the actual loading of data for your list from the remote datasource.  Since we have one key per page of Event API data extends ```PageKeyedDataSource``` from the paging library. 
+Finally, the ```EventPagedDataSource``` will be created by its factory, ```AppPageDataSourceFactory``` which inherits of ```DataSource.Factory```
 
 ## Conclusion
 
