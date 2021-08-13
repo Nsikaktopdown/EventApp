@@ -16,6 +16,7 @@ This boilerplate with help Android developers understand how structure their pro
 * [Gson](https://github.com/google/gson)
 * [Timber](https://github.com/JakeWharton/timber)
 * [Mockito](http://site.mockito.org/)
+* [PagingLibrary](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 
 
 ## `Screen Shots`
@@ -40,8 +41,7 @@ This boilerplate with help Android developers understand how structure their pro
 Clean architecture encourages separation of concerns, making the code loosely coupled. This results in a more testable and flexible code. This approach divides the project in 3 modules: presentation, data and domain.
 
 ### Presentation:
-This is the User interface layer(Activities, Fragments and ViewModel) with the Android Framework, the MVVM pattern and the DI module. Depends on domain to access the use cases and on di, to inject dependencies.
-
+This is the User interface layer(Activities, Fragments and ViewModel) with the Android Framework, the MVVM pattern and the DI module. 
 
 ### Domain:  
 This layer holds the business logic. Contains the use cases, in charge of calling the correct repository or data member.
@@ -51,14 +51,7 @@ This layer has the responsibility of selecting the proper data source for the do
 This includes: 
 * ```Remote Datasource:```: Handles communications with the remote API(REST or GRAPHQL). In this project, it makes ann HTTP call using Retrofit Interface
 * ```Cache Datasource``` : Handles communication with the local storage which is used to cache the events data locally
-
-### Advantages of Using Clean Architecture:
-* Your code will be easily testable.
-* Your code is further decoupled (the biggest advantage.)
-* The package structure is even easier to navigate.
-* The project is even easier to maintain.
-* Your team can add new features even more quickly.
-
+* ```EventDatasource``` : This class manages the actual loading of data for your list from the remote datasource.  Since we have one key per page of Event API data extends ```PageKeyedDataSource``` from the paging library. 
 
 
 ## Conclusion
