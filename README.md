@@ -1,7 +1,7 @@
 # Android Clean architecture + Paging Library + Kotlin Flow Boilerplate
 
 
-This boilerplate with help Android developers understand how structure their projects in a clean way and also handling pagination with Paging Library from Jetpack. 
+This is a simple event App using [TicketMasterApi](https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/) with pagination concepts using [PagingLibrary](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) from Jetpack and Kotlin Coroutines + Flow. 
 
 
 ## Languages, libraries and tools used
