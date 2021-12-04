@@ -3,15 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/compose-model-1638614220590.xml" value="0.2887008192979524" />
+        <entry key="../../../../layout/compose-model-1638618581860.xml" value="0.375" />
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/circle_background.xml" value="0.1361111111111111" />
         <entry key="app/src/main/res/drawable/ic_active_bookmark.xml" value="0.24259259259259258" />
         <entry key="app/src/main/res/drawable/ic_inactive_bookmark.xml" value="0.24259259259259258" />
         <entry key="app/src/main/res/drawable/ic_person.xml" value="0.1361111111111111" />
+        <entry key="app/src/main/res/drawable/ic_ticket.xml" value="0.196875" />
+        <entry key="app/src/main/res/drawable/ic_time.xml" value="0.196875" />
+        <entry key="app/src/main/res/drawable/ic_venue.xml" value="0.196875" />
         <entry key="app/src/main/res/font/app_fonts.xml" value="0.23177083333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11828774062816616" />
         <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/event_item.xml" value="1.677480737616825" />
+        <entry key="app/src/main/res/layout/event_item.xml" value="0.7379032258064516" />
         <entry key="app/src/main/res/layout/fragment_event_details.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.367816091954023" />
         <entry key="app/src/main/res/layout/fragment_wishlist.xml" value="0.10190217391304347" />
