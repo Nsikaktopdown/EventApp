@@ -12,7 +12,7 @@ data class Event(
     @SerializedName("sales") var sales: Sales,
     @SerializedName("promoter") var promoter: Promoter?,
     @SerializedName("info") var info: String,
-    @SerializedName("priceRanges") var priceRanges: List<PriceRanges>,
+    @SerializedName("priceRanges") var priceRanges: List<PriceRanges>?,
     @SerializedName("_embedded") var embedded:Embedded
 )
 

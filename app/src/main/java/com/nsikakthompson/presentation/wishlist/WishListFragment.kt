@@ -43,12 +43,12 @@ class WishListFragment : Fragment() {
     }
 
     private fun subscribeUi(binding: FragmentWishlistBinding, adapter: EventAdapter) {
-        viewModel.wishList.observe(viewLifecycleOwner, Observer { events ->
-            if (events.isNotEmpty()) {
-                binding.progressBar.visibility = View.GONE
-                eventAdapter.submitList(events)
-            }
-
-        })
+//        viewModel.wishList.observe(viewLifecycleOwner, Observer { events ->
+//            if (events.isNotEmpty()) {
+//                binding.progressBar.visibility = View.GONE
+//                eventAdapter.submitList(events)
+//            }
+//
+//        })
     }
 }

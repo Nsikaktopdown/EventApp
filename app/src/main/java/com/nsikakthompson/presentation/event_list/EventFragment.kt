@@ -37,8 +37,8 @@ class EventFragment : Fragment() {
             adapter = eventAdapter
         }
 
-        observeNetworkState(binding)
-        subscribeUi(binding)
+//        observeNetworkState(binding)
+//        subscribeUi(binding)
 
         binding.countLayout.tvCount.setOnClickListener {
             findNavController(this).navigate(EventFragmentDirections.actionEventFragmentToWishListFragment())
@@ -57,37 +57,37 @@ class EventFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    private fun subscribeUi(binding: FragmentEventsBinding) {
-        viewModel.events.observe(viewLifecycleOwner, Observer { events ->
-            if (events.isNotEmpty()) {
-                eventAdapter.submitList(events)
-            }
+//    private fun subscribeUi(binding: FragmentEventsBinding) {
+//        viewModel.events.observe(viewLifecycleOwner, Observer { events ->
+//            if (events.isNotEmpty()) {
+//                eventAdapter.submitList(events)
+//            }
+//
+//        })
+//
+//        viewModel.wishCount.observe(viewLifecycleOwner, Observer {
+//            binding.countLayout.tvCount.visibility = if (it == 0) View.GONE else View.VISIBLE
+//            binding.countLayout.tvCount.text = it.toString()
+//
+//        })
+//
+//    }
 
-        })
 
-        viewModel.wishCount.observe(viewLifecycleOwner, Observer {
-            binding.countLayout.tvCount.visibility = if (it == 0) View.GONE else View.VISIBLE
-            binding.countLayout.tvCount.text = it.toString()
-
-        })
-
-    }
-
-
-    private fun observeNetworkState(binding: FragmentEventsBinding) {
-        viewModel.networkState?.observe(viewLifecycleOwner, Observer {
-            when (it.state) {
-                EventState.RUNNING -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-                EventState.FAILED -> {
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-                }
-                EventState.SUCCESS -> {
-                    binding.progressBar.visibility = View.GONE
-                }
-            }
-        })
-    }
+//    private fun observeNetworkState(binding: FragmentEventsBinding) {
+//        viewModel.networkState?.observe(viewLifecycleOwner, Observer {
+//            when (it.state) {
+//                EventState.RUNNING -> {
+//                    binding.progressBar.visibility = View.VISIBLE
+//                }
+//                EventState.FAILED -> {
+//                    binding.progressBar.visibility = View.GONE
+//                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+//                }
+//                EventState.SUCCESS -> {
+//                    binding.progressBar.visibility = View.GONE
+//                }
+//            }
+//        })
+//    }
 }

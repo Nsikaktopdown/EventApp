@@ -9,10 +9,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class AppRemoteDataSource(private var apiService: ApiService) : BaseDataSource() {
-    suspend fun fetchEvents(page: Int? = null, size: Int? = null) = flow<EventResponse> {
-        val events = apiService.getEvent(page, size, Config.API_KEY)
-        emit(events)
-    }
-        .flowOn(Dispatchers.IO)
+    suspend fun fetchEvents(page: Int? = null, size: Int? = null) =
+        apiService.getEvent(page, size, Config.API_KEY)
+
 
 }

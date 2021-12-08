@@ -11,11 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.presentation.compose.widget.EventItem
 import com.nsikakthompson.presentation.viewmodel.EventUIState
+import kotlinx.coroutines.flow.Flow
 
 
 @Composable
@@ -41,7 +45,7 @@ fun EventListScreen(
             content = {
                 when (uiState) {
                     is EventUIState.HasEvent -> {
-                        EventList(events = uiState.eventFeed)
+                        EventList(eventList = uiState.eventFeed)
                     }
                     is EventUIState.NoEvent -> {
                         Text(uiState.errorMessage)
@@ -56,12 +60,15 @@ fun EventListScreen(
 
 @Composable
 fun EventList(
-    events: List<EventEntity>
+    eventList: Flow<PagingData<EventEntity>>
 ) {
+    val events: LazyPagingItems<EventEntity> = eventList.collectAsLazyPagingItems()
     val scrollListState = rememberLazyListState()
     LazyColumn(state = scrollListState) {
-        items(count = events.size) { index ->
-            EventItem(events[index])
+        items(events.itemCount) { index ->
+           events.let {
+               events[index]?.let { event -> EventItem(event) }
+           }
             Spacer(modifier = Modifier.height(5.dp))
         }
     }

@@ -10,17 +10,9 @@ import kotlinx.coroutines.CoroutineScope
 
 class EventRepositoryImpl(
     private var dao: EventDao,
-    private var dataSourceFactory: AppPageDataSourceFactory
+    private var appRemoteDataSource: AppRemoteDataSource
 ) : EventRepository {
-
-    override fun observePagedEvents(
-        connectivityAvailable: Boolean,
-        isWish: Boolean
-    ) =
-        if (connectivityAvailable)
-
-            observeRemotePagedEvents()
-        else observeLocalPagedEvents(isWish)
+    override suspend fun getEvents(page: Int, size: Int) = appRemoteDataSource.fetchEvents(page = page, size)
 
     override suspend fun addToWishList(eventEntity: EventEntity) {
         return dao.insert(eventEntity)
@@ -38,22 +30,6 @@ class EventRepositoryImpl(
         return dao.getCount(true)
     }
 
-
-    private fun observeLocalPagedEvents(isWish: Boolean): LiveData<PagedList<EventEntity>> {
-        val dataSourceFactory = dao.getPagedEvents(isWish)
-        return LivePagedListBuilder(
-            dataSourceFactory,
-            AppPageDataSourceFactory.pagedListConfig()
-        ).build()
-    }
-
-    private fun observeRemotePagedEvents()
-            : LiveData<PagedList<EventEntity>> {
-        return LivePagedListBuilder(
-            dataSourceFactory,
-            AppPageDataSourceFactory.pagedListConfig()
-        ).build()
-    }
 
 
 }

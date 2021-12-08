@@ -1,18 +1,17 @@
 package com.nsikakthompson.presentation.viewmodel
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagedList
+import androidx.paging.PagingData
 import com.nsikakthompson.cache.EventEntity
-import com.nsikakthompson.data.AppPageDataSourceFactory
-import com.nsikakthompson.domain.EventRepository
 import com.nsikakthompson.domain.usecase.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -26,7 +25,7 @@ sealed interface EventUIState {
     data class HasEvent(
         override val isLoading: Boolean,
         override val errorMessage: String,
-        val eventFeed: List<EventEntity>
+        val eventFeed: Flow<PagingData<EventEntity>>
     ) : EventUIState
 
     data class NoEvent(
@@ -40,7 +39,7 @@ sealed interface EventUIState {
  */
 
 private data class EventViewModelState(
-    val eventFeed: PagedList<EventEntity>? = null,
+    val eventFeed: Flow<PagingData<EventEntity>>? = null,
     val isLoading: Boolean = false,
     val errorMessage: String = ""
 ) {
@@ -70,20 +69,16 @@ class EventViewModel(
     private var removeFromWishListUseCase: RemoveFromWishListUseCase,
     private var getWishListCountUseCase: GetWishListCountUseCase,
     private var getEventByIdUseCase: GetEventByIdUseCase,
-    private var ioCoroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
-    private var appPageDataSourceFactory: AppPageDataSourceFactory
+    private var dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
     private val viewModelState = MutableStateFlow(EventViewModelState(isLoading = false))
 
     private val _event: MutableLiveData<EventEntity> = MutableLiveData()
-    var event : LiveData<EventEntity> = _event
+    var event: LiveData<EventEntity> = _event
 
     private val _wishListCount: MutableLiveData<Int> = MutableLiveData()
     var wishCount: LiveData<Int> = _wishListCount
-
-    val networkState: LiveData<NetworkState>? =
-        switchMap(appPageDataSourceFactory.getSource()) { it.getNetworkState() }
 
 
     // UI state exposed to the UI
@@ -96,38 +91,25 @@ class EventViewModel(
         )
 
 
-    fun getEvents(){
+    fun getEvents() {
         viewModelState.update { it.copy(isLoading = true) }
-        viewModelState.update {
-            it.copy(
-                eventFeed = getEventListUseCase.call(
-                    GetEventListUseCase.Params(
-                        ioCoroutineScope,
-                        false
-                    )
-                ).value
-            )
+        viewModelScope.launch(dispatcher) {
+            viewModelState.update {
+                it.copy(
+                    eventFeed = getEventListUseCase.call()
+                )
+            }
         }
+
     }
 
     val events by lazy {
-        getEventListUseCase.call(
-            GetEventListUseCase.Params(
-                ioCoroutineScope,
-                false
-            )
-        )
+        getEventListUseCase.call()
     }
-
-
 
 
     val wishList by lazy {
         getEventListUseCase.call(
-            GetEventListUseCase.Params(
-                ioCoroutineScope,
-                true
-            )
         )
     }
 

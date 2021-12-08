@@ -51,10 +51,6 @@ var dataModule = module {
 
 
     single {
-        AppPageDataSourceFactory(get(), get(), get())
-    }
-
-    single {
         var eventRepository: EventRepository = EventRepositoryImpl(get(), get())
         eventRepository
     }
@@ -71,7 +67,10 @@ var dataModule = module {
     }
 
     single {
-        var getEventUseCase = GetEventListUseCase(get(), get())
+        EventPagedDataSource(get())
+    }
+    single {
+        var getEventUseCase = GetEventListUseCase(get())
         getEventUseCase
     }
 

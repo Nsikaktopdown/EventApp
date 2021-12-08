@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 var presentationModule = module {
     viewModel {
-        EventViewModel(get(), get(), get(), get(), get(), get(), get())
+        EventViewModel(get(), get(), get(), get(), get())
     }
 }

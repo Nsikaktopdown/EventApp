@@ -1,23 +1,18 @@
 package com.nsikakthompson.domain.usecase
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.nsikakthompson.cache.EventEntity
-import com.nsikakthompson.domain.EventRepository
-import kotlinx.coroutines.CoroutineScope
+import com.nsikakthompson.data.EventPagedDataSource
+import kotlinx.coroutines.flow.Flow
 
 class GetEventListUseCase(
-    private val isNetworkAvailable: Boolean,
-    private val eventRepository: EventRepository
+    private var eventPagedDataSource: EventPagedDataSource
 ) {
-    fun call(input: Params): LiveData<PagedList<EventEntity>> {
-
-        return eventRepository.observePagedEvents(
-            if (!input.isWish) isNetworkAvailable else false,
-            input.isWish
-        )
-
+    fun call(): Flow<PagingData<EventEntity>> {
+        return Pager(PagingConfig(pageSize = 20)) {
+            eventPagedDataSource
+        }.flow
     }
-
-    data class Params(val coroutineScope: CoroutineScope, val isWish: Boolean)
 }

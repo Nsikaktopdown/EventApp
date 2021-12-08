@@ -104,6 +104,10 @@ dependencies {
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
     implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-coil:0.12.0"
+
+     //Paging 3.0
+    implementation 'androidx.paging:paging-compose:1.0.0-alpha14'
 
 
     testImplementation "androidx.arch.core:core-testing:2.1.0"
