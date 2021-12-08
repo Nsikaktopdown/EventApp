@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.nsikakthompson.R
 import com.nsikakthompson.api.networkModule
 import com.nsikakthompson.data.dataModule
+import com.nsikakthompson.presentation.compose.EventApp
 import com.nsikakthompson.presentation.compose.screen.EventListScreen
 import com.nsikakthompson.presentation.compose.tools.LayoutTheme
 import org.koin.android.ext.koin.androidContext
@@ -22,45 +23,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainScreen()
+           EventApp()
         }
 
     }
 
-    @Composable
-    fun topBar() {
-
-        TopAppBar(
-            title = {
-                Text(text = "Popular Event")
-            },
-            elevation = 0.dp,
-
-            actions = {
-                IconButton(onClick = {
-
-                }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_active_bookmark),
-                        contentDescription = "Search"
-                    )
-                }
-            }
-        )
-
-    }
-
-
-    @Preview(showBackground = true)
-    @Composable
-    fun MainScreen() {
-        LayoutTheme() {
-            Scaffold(
-                topBar = { topBar() }
-            ) {
-                EventListScreen()
-            }
-
-        }
-    }
 }

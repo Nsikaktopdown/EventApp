@@ -14,7 +14,6 @@ class GetEventListUseCase(
 
         return eventRepository.observePagedEvents(
             if (!input.isWish) isNetworkAvailable else false,
-            input.coroutineScope,
             input.isWish
         )
 

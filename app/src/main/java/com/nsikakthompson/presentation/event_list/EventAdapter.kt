@@ -35,7 +35,7 @@ class EventAdapter : PagedListAdapter<EventEntity, EventAdapter.ViewHolder>(Diff
 
     private fun createOnClickListener(item: EventEntity): View.OnClickListener {
         return View.OnClickListener {
-            val direction =  EventFragmentDirections.actionEventFragmentToEventDetailsFragment(item.id, item)
+            val direction =  EventFragmentDirections.actionEventFragmentToEventDetailsFragment(item.id)
             it.findNavController().navigate(direction)
         }
     }

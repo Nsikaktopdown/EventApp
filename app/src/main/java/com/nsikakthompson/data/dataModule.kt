@@ -40,7 +40,7 @@ var dataModule = module {
     }
 
     single {
-        var coroutineScope = CoroutineScope(Dispatchers.Default)
+        var coroutineScope = CoroutineScope(Dispatchers.IO)
         coroutineScope
     }
 

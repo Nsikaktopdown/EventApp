@@ -15,14 +15,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nsikakthompson.R
+import com.nsikakthompson.cache.EventEntity
+import com.nsikakthompson.formatDate
+import com.nsikakthompson.formatTime
 import com.nsikakthompson.presentation.compose.tools.LayoutTheme
 
 
-@Preview(showBackground = true)
 @Composable
-fun EventItem() {
+fun EventItem(event: EventEntity) {
     LayoutTheme() {
-
         Surface(
             shape = RoundedCornerShape(4.dp),
             color = Color.White
@@ -36,22 +37,22 @@ fun EventItem() {
                         .height(100.dp)
                         .width(100.dp)
                 )
-
-
-                Column(Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.SpaceBetween) {
+                Column(
+                    Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
                     Text(
-                        "Portland Trailer",
+                        event.name,
                         style = MaterialTheme.typography.body1
                     )
                     Spacer(Modifier.height(5.dp))
                     Text(
-                        "Thur, 23, 2021",
+                        event.startDateTime.formatDate(),
                         style = MaterialTheme.typography.caption
                     )
                     Spacer(Modifier.height(5.dp))
                     Text(
-                        "05:00pm",
+                        "${event.startDateTime.formatTime()} - ${event.endDateTime.formatTime()}",
                         style = MaterialTheme.typography.caption
                     )
 

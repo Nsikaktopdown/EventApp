@@ -15,12 +15,11 @@ class EventRepositoryImpl(
 
     override fun observePagedEvents(
         connectivityAvailable: Boolean,
-        coroutineScope: CoroutineScope,
         isWish: Boolean
     ) =
         if (connectivityAvailable)
 
-            observeRemotePagedEvents(coroutineScope)
+            observeRemotePagedEvents()
         else observeLocalPagedEvents(isWish)
 
     override suspend fun addToWishList(eventEntity: EventEntity) {
@@ -48,7 +47,7 @@ class EventRepositoryImpl(
         ).build()
     }
 
-    private fun observeRemotePagedEvents(ioCoroutineScope: CoroutineScope)
+    private fun observeRemotePagedEvents()
             : LiveData<PagedList<EventEntity>> {
         return LivePagedListBuilder(
             dataSourceFactory,
