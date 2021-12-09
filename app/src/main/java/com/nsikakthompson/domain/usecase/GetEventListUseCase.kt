@@ -11,7 +11,7 @@ class GetEventListUseCase(
     private var eventPagedDataSource: EventPagedDataSource
 ) {
     fun call(): Flow<PagingData<EventEntity>> {
-        return Pager(PagingConfig(pageSize = 20)) {
+        return Pager(PagingConfig(pageSize = 10)) {
             eventPagedDataSource
         }.flow
     }

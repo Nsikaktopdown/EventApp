@@ -30,7 +30,7 @@ var networkModule = module {
     }
 
     single {
-        var  retrofit = Retrofit.Builder()
+        val  retrofit = Retrofit.Builder()
             .client(get())
             .baseUrl(HOST)
             .addConverterFactory(GsonConverterFactory.create())
@@ -39,7 +39,7 @@ var networkModule = module {
     }
 
     single{
-        var api  = (get() as Retrofit).create(ApiService::class.java)
+        val api  = (get() as Retrofit).create(ApiService::class.java)
         api
     }
 }

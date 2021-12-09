@@ -14,11 +14,9 @@ fun EventRoute(
     eventViewModel: EventViewModel,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
 ){
-    eventViewModel.getEvents()
     val state by eventViewModel.uiState.collectAsState()
     EventListScreen(topBar = { TopBar() },
         uiState =  state,
-        scaffoldState = scaffoldState,
-        onRefreshPosts = {eventViewModel.getEvents()}
+        scaffoldState = scaffoldState, onRefreshEvents= {eventViewModel.refreshEvents()}
     )
 }

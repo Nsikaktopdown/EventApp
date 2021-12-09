@@ -69,7 +69,7 @@ class EventViewModel(
     private var removeFromWishListUseCase: RemoveFromWishListUseCase,
     private var getWishListCountUseCase: GetWishListCountUseCase,
     private var getEventByIdUseCase: GetEventByIdUseCase,
-    private var dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private var dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
 
     private val viewModelState = MutableStateFlow(EventViewModelState(isLoading = false))
@@ -91,13 +91,22 @@ class EventViewModel(
         )
 
 
-    fun getEvents() {
-        viewModelState.update { it.copy(isLoading = true) }
+    init {
         viewModelScope.launch(dispatcher) {
+            val events =  getEventListUseCase.call()
             viewModelState.update {
                 it.copy(
-                    eventFeed = getEventListUseCase.call()
+                    eventFeed = events
                 )
+            }
+        }
+    }
+
+    fun refreshEvents() {
+        viewModelState.update { it.copy(isLoading = true) }
+        viewModelScope.launch(dispatcher) {
+            val events = getEventListUseCase.call()
+            viewModelState.update { it.copy(eventFeed = events)
             }
         }
 
@@ -159,12 +168,3 @@ class EventViewModel(
     }
 
 }
-
-
-enum class EventState {
-    RUNNING,
-    SUCCESS,
-    FAILED
-}
-
-data class NetworkState constructor(var state: EventState, var message: String? = null)

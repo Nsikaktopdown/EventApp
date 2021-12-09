@@ -11,11 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.presentation.compose.widget.EventItem
 import com.nsikakthompson.presentation.viewmodel.EventUIState
@@ -27,7 +26,7 @@ fun EventListScreen(
     topBar: @Composable () -> Unit,
     uiState: EventUIState,
     scaffoldState: ScaffoldState,
-    onRefreshPosts: () -> Unit
+    onRefreshEvents: () -> Unit
 ) {
     Scaffold(scaffoldState = scaffoldState,
         topBar = {
@@ -39,13 +38,14 @@ fun EventListScreen(
                 is EventUIState.HasEvent -> false
                 is EventUIState.NoEvent -> uiState.isLoading
             },
-            emptyContent = { FullScreenLoading() },
+            emptyContent = { FullScreenLoading()},
             loading = uiState.isLoading,
-            onRefresh = onRefreshPosts,
+            onRefresh = onRefreshEvents,
             content = {
                 when (uiState) {
                     is EventUIState.HasEvent -> {
                         EventList(eventList = uiState.eventFeed)
+                        uiState.copy(isLoading = false)
                     }
                     is EventUIState.NoEvent -> {
                         Text(uiState.errorMessage)
@@ -64,12 +64,30 @@ fun EventList(
 ) {
     val events: LazyPagingItems<EventEntity> = eventList.collectAsLazyPagingItems()
     val scrollListState = rememberLazyListState()
-    LazyColumn(state = scrollListState) {
+    LazyColumn(state = scrollListState,
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight().padding(16.dp)) {
         items(events.itemCount) { index ->
            events.let {
                events[index]?.let { event -> EventItem(event) }
            }
             Spacer(modifier = Modifier.height(5.dp))
+        }
+
+        events.apply {
+            when{
+                loadState.refresh is LoadState.Loading ->{
+                    item {
+                        FullScreenLoading()
+                    }
+                }
+                loadState.append is LoadState.Error -> {
+                 item{
+                     Text("Something went wrong")
+                 }
+                }
+            }
         }
     }
 }
@@ -93,12 +111,8 @@ private fun LoadingContent(
 ) {
     if (empty) {
         emptyContent()
-    } else {
-        SwipeRefresh(
-            state = rememberSwipeRefreshState(loading),
-            onRefresh = onRefresh,
-            content = content,
-        )
+    }else{
+        content()
     }
 }
 

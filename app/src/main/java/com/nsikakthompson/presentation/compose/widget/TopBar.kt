@@ -4,15 +4,17 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nsikakthompson.R
 
+@Preview
 @Composable
 fun TopBar() {
     TopAppBar(
         title = {
             Text(text = "Popular Event",
-            style = MaterialTheme.typography.body2.copy(fontWeight = FontWeight.W600))
+            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.W600))
         },
         elevation = 0.dp,
         actions = {
