@@ -18,6 +18,17 @@
         <entry key="../../../../layout/compose-model-1638958196667.xml" value="0.1" />
         <entry key="../../../../layout/compose-model-1639072632903.xml" value="0.4229006189220619" />
         <entry key="../../../../layout/compose-model-1639072645239.xml" value="0.31432845239585167" />
+        <entry key="../../../../layout/compose-model-1639124178627.xml" value="0.1685185185185185" />
+        <entry key="../../../../layout/compose-model-1643827990200.xml" value="0.1" />
+        <entry key="../../../../layout/compose-model-1643828337937.xml" value="1.0" />
+        <entry key="../../../../layout/compose-model-1643886155705.xml" value="0.30579160399266314" />
+        <entry key="../../../../layout/compose-model-1645082886966.xml" value="0.2388888888888889" />
+        <entry key="../../../../layout/compose-model-1645089479756.xml" value="0.320125084985935" />
+        <entry key="../../../../layout/compose-model-1645449717995.xml" value="0.22466216216216217" />
+        <entry key="../../../../layout/compose-model-1659638305114.xml" value="0.4537037037037037" />
+        <entry key="../../../../layout/compose-model-1659639120301.xml" value="0.3055555555555556" />
+        <entry key="../../../../layout/compose-model-1659639404812.xml" value="0.5564814814814815" />
+        <entry key="../../../../layout/compose-model-1659641753394.xml" value="0.5" />
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/circle_background.xml" value="0.1361111111111111" />
         <entry key="app/src/main/res/drawable/ic_active_bookmark.xml" value="0.24259259259259258" />
@@ -29,8 +40,8 @@
         <entry key="app/src/main/res/font/app_fonts.xml" value="0.23177083333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11828774062816616" />
         <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/event_item.xml" value="0.7379032258064516" />
-        <entry key="app/src/main/res/layout/fragment_event_details.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/event_item.xml" value="0.3046272493573265" />
+        <entry key="app/src/main/res/layout/fragment_event_details.xml" value="0.2876336274923112" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.367816091954023" />
         <entry key="app/src/main/res/layout/fragment_wishlist.xml" value="0.10190217391304347" />
         <entry key="app/src/main/res/layout/info_view.xml" value="0.3658280922431866" />

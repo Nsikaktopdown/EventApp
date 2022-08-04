@@ -7,7 +7,8 @@ import androidx.navigation.NavHostController
  * Destinations used in the App.
  */
 object AppDestinations {
-    const val HOME_ROUTE = "home"
+    const val EVENT_LIST_ROUTE = "EVENT_LIST"
+    const val EVENT_DETAILS = "EVENT_DETAILS"
 }
 
 /**
@@ -15,7 +16,7 @@ object AppDestinations {
  */
 class AppNavigationActions(navController: NavHostController) {
     val navigateToHome: () -> Unit = {
-        navController.navigate(AppDestinations.HOME_ROUTE) {
+        navController.navigate(AppDestinations.EVENT_LIST_ROUTE) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items

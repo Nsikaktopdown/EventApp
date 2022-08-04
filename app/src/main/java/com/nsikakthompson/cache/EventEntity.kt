@@ -16,8 +16,8 @@ data class EventEntity(
     var imageUrl: String,
     var startDateTime: String,
     var endDateTime: String,
-    var promoterName: String?,
-    var promoterDesc: String?,
+    var promoterName: String? = null,
+    var promoterDesc: String? = null,
     var price: Double,
     var currency: String,
     var ticketType: String,
@@ -29,3 +29,5 @@ data class EventEntity(
     var isWish: Boolean
 
 ): Parcelable
+
+

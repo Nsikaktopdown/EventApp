@@ -6,13 +6,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.nsikakthompson.presentation.compose.screen.EventDetailScreen
 import com.nsikakthompson.presentation.compose.screen.EventRoute
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AppNavigationGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = AppDestinations.HOME_ROUTE,
+    startDestination: String = AppDestinations.EVENT_LIST_ROUTE,
     modifier: Modifier = Modifier,
 ) {
     NavHost(
@@ -20,10 +21,14 @@ fun AppNavigationGraph(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        composable(AppDestinations.HOME_ROUTE) {
+        composable(AppDestinations.EVENT_LIST_ROUTE) {
             EventRoute(
-                eventViewModel = getViewModel()
+                eventViewModel = getViewModel(),
+                navController = navController
             )
+        }
+        composable(AppDestinations.EVENT_DETAILS){
+            EventDetailScreen(navController = navController)
         }
     }
 }

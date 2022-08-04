@@ -1,5 +1,6 @@
 package com.nsikakthompson.presentation.compose.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -10,27 +11,32 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.nsikakthompson.R
 import com.nsikakthompson.cache.EventEntity
+import com.nsikakthompson.presentation.compose.navigation.AppDestinations
 import com.nsikakthompson.presentation.compose.widget.EventItem
+import com.nsikakthompson.presentation.compose.widget.TopBar
 import com.nsikakthompson.presentation.viewmodel.EventUIState
 import kotlinx.coroutines.flow.Flow
 
 
 @Composable
 fun EventListScreen(
-    topBar: @Composable () -> Unit,
     uiState: EventUIState,
     scaffoldState: ScaffoldState,
+    navController: NavController,
     onRefreshEvents: () -> Unit
 ) {
     Scaffold(scaffoldState = scaffoldState,
         topBar = {
-            topBar()
+            TopBar(title = stringResource(id = R.string.popular_event))
         }) {
 
         LoadingContent(
@@ -38,14 +44,16 @@ fun EventListScreen(
                 is EventUIState.HasEvent -> false
                 is EventUIState.NoEvent -> uiState.isLoading
             },
-            emptyContent = { FullScreenLoading()},
+            emptyContent = { FullScreenLoading() },
             loading = uiState.isLoading,
             onRefresh = onRefreshEvents,
             content = {
                 when (uiState) {
                     is EventUIState.HasEvent -> {
-                        EventList(eventList = uiState.eventFeed)
-                        uiState.copy(isLoading = false)
+                        EventList(
+                            eventList = uiState.eventFeed,
+                            navController = navController
+                        )
                     }
                     is EventUIState.NoEvent -> {
                         Text(uiState.errorMessage)
@@ -60,32 +68,34 @@ fun EventListScreen(
 
 @Composable
 fun EventList(
-    eventList: Flow<PagingData<EventEntity>>
+    eventList: Flow<PagingData<EventEntity>>,
+    navController: NavController
 ) {
     val events: LazyPagingItems<EventEntity> = eventList.collectAsLazyPagingItems()
     val scrollListState = rememberLazyListState()
     LazyColumn(state = scrollListState,
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight().padding(16.dp)) {
+            .fillMaxHeight()
+            .padding(16.dp)) {
         items(events.itemCount) { index ->
-           events.let {
-               events[index]?.let { event -> EventItem(event) }
-           }
+            events.let {
+                events[index]?.let { event -> EventItem(event, navController = navController) }
+            }
             Spacer(modifier = Modifier.height(5.dp))
         }
 
         events.apply {
-            when{
-                loadState.refresh is LoadState.Loading ->{
+            when {
+                loadState.refresh is LoadState.Loading -> {
                     item {
                         FullScreenLoading()
                     }
                 }
                 loadState.append is LoadState.Error -> {
-                 item{
-                     Text("Something went wrong")
-                 }
+                    item {
+                        Text("Something went wrong")
+                    }
                 }
             }
         }
@@ -111,7 +121,7 @@ private fun LoadingContent(
 ) {
     if (empty) {
         emptyContent()
-    }else{
+    } else {
         content()
     }
 }
@@ -129,3 +139,4 @@ private fun FullScreenLoading() {
         CircularProgressIndicator()
     }
 }
+
