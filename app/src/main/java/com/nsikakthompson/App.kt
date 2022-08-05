@@ -7,6 +7,7 @@ import com.nsikakthompson.presentation.presentationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 import timber.log.Timber
 
 class App : Application() {
@@ -16,7 +17,7 @@ class App : Application() {
             Timber.plant(Timber.DebugTree())
         }
         startKoin {
-            androidLogger()
+            androidLogger(Level.ERROR)
             androidContext(applicationContext)
             modules(listOf(
                 dataModule, networkModule, presentationModule

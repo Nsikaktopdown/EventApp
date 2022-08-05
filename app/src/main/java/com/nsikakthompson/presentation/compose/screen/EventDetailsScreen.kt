@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberImagePainter
 import com.nsikakthompson.R
 import com.nsikakthompson.api.ApiService
 import com.nsikakthompson.cache.EventEntity
@@ -70,7 +71,7 @@ fun EventDetailScreen(
         Surface(modifier = Modifier.fillMaxSize()) {
             Column {
                 Image(
-                    painter = painterResource(id = R.drawable.event),
+                    painter = rememberImagePainter(event.imageUrl),
                     contentDescription = "",
                     modifier = Modifier
                         .height(100.dp)
@@ -78,7 +79,7 @@ fun EventDetailScreen(
                     contentScale = ContentScale.Crop
                 )
                 DetailItem(
-                    image = R.drawable.ic_time, headerTitle = event.openHoursDetail.formatDate(),
+                    image = R.drawable.ic_time, headerTitle = event.startDateTime.formatDate(),
                     description = "${event.startDateTime.formatTime()} - ${event.endDateTime.formatTime()}"
                 )
                 DetailItem(
@@ -94,6 +95,14 @@ fun EventDetailScreen(
                 DetailItem(
                     image = R.drawable.ic_venue, headerTitle = event.venueName,
                     description = event.venueState
+                )
+
+                Divider(modifier = Modifier.height(1.dp))
+
+                Text(
+                    text = event.openHoursDetail,
+                    modifier = Modifier.padding(20.dp),
+                    style = MaterialTheme.typography.caption
                 )
             }
         }

@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
  */
 object AppDestinations {
     const val EVENT_LIST_ROUTE = "EVENT_LIST"
-    const val EVENT_DETAILS = "EVENT_DETAILS"
+    const val EVENT_DETAILS = "EVENT_DETAILS/"
 }
 
 /**

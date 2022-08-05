@@ -6,6 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.nsikakthompson.cache.EventEntity
+import com.nsikakthompson.presentation.compose.data.EventType
 import com.nsikakthompson.presentation.compose.screen.EventDetailScreen
 import com.nsikakthompson.presentation.compose.screen.EventRoute
 import org.koin.androidx.compose.getViewModel
@@ -27,8 +30,10 @@ fun AppNavigationGraph(
                 navController = navController
             )
         }
-        composable(AppDestinations.EVENT_DETAILS){
-            EventDetailScreen(navController = navController)
+        composable(AppDestinations.EVENT_DETAILS + "{event}",
+        arguments = listOf(navArgument("event") {type = EventType()})){ backStackEntry ->
+            backStackEntry.arguments?.getParcelable<EventEntity>("event")
+                ?.let { EventDetailScreen(event = it,navController = navController) }
         }
     }
 }

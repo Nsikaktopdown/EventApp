@@ -20,17 +20,22 @@ val OpenSans = FontFamily(
 )
 
 
-
 private val DarkColorPalette = darkColors(
-    primary = Color(0xFF000000),
-    primaryVariant = Color(0xFF000000),
-    secondary = Color(0xFF000000)
+    primary = purple200,
+    primaryVariant = purple200,
+    secondary = purple200,
+    onPrimary = Color.Black,
+    onSecondary = Color.Black,
+    onBackground = Color.White
 )
 
 private val LightColorPalette = lightColors(
     primary = purple200,
     primaryVariant = purple500,
-    secondary = purple200
+    secondary = purple200,
+    onSecondary = Color.White,
+    onPrimary = Color.White,
+    onBackground = Color.Black
 
     /* Other default colors to override
     background = Color.White,
@@ -73,7 +78,6 @@ val typography = Typography(
         fontFamily = OpenSans,
         fontWeight = FontWeight.W500,
         fontSize = 16.sp,
-        color = textDark
     ),
     body2 = TextStyle(
         fontFamily = OpenSans,
@@ -87,8 +91,7 @@ val typography = Typography(
     caption = TextStyle(
         fontFamily = OpenSans,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        color = textLight
+        fontSize = 14.sp
     ),
     overline = TextStyle(
         fontFamily = OpenSans,

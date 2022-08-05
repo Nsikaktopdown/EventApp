@@ -1,8 +1,10 @@
 package com.nsikakthompson.cache
 
+import android.net.Uri
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -28,6 +30,11 @@ data class EventEntity(
     var willCallDetail: String,
     var isWish: Boolean
 
-): Parcelable
+): Parcelable{
+
+    override fun toString(): String {
+        return Uri.encode(Gson().toJson(this))
+    }
+}
 
 

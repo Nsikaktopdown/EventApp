@@ -22,6 +22,7 @@ import com.nsikakthompson.R
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.presentation.compose.navigation.AppDestinations
 import com.nsikakthompson.presentation.compose.widget.EventItem
+import com.nsikakthompson.presentation.compose.widget.EventListDivider
 import com.nsikakthompson.presentation.compose.widget.TopBar
 import com.nsikakthompson.presentation.viewmodel.EventUIState
 import kotlinx.coroutines.flow.Flow
@@ -73,16 +74,22 @@ fun EventList(
 ) {
     val events: LazyPagingItems<EventEntity> = eventList.collectAsLazyPagingItems()
     val scrollListState = rememberLazyListState()
-    LazyColumn(state = scrollListState,
+    LazyColumn(
+        state = scrollListState,
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .padding(16.dp)) {
+            .padding(16.dp)
+    ) {
         items(events.itemCount) { index ->
             events.let {
-                events[index]?.let { event -> EventItem(event, navController = navController) }
+                events[index]?.let { event ->
+                    EventItem(event, onItemClick = {
+                        navController.navigate(AppDestinations.EVENT_DETAILS + event.toString())
+                    })
+                }
             }
-            Spacer(modifier = Modifier.height(5.dp))
+            EventListDivider()
         }
 
         events.apply {

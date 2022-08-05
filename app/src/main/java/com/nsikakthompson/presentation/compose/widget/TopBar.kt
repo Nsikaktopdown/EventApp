@@ -1,12 +1,16 @@
 package com.nsikakthompson.presentation.compose.widget
 
+import android.content.res.Configuration
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.nsikakthompson.R
 
 
@@ -15,6 +19,12 @@ import com.nsikakthompson.R
 fun TopBarPreview() {
     TopBar(title = "TopBar", onBackPressed = { })
 
+}
+
+@Preview("Dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun TopBarDarkPreview() {
+    TopBar(title = "TopBar", onBackPressed = { })
 }
 
 @Composable
@@ -33,14 +43,17 @@ fun TopBar(
         title = {
             Text(
                 text = title,
-                style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.W600)
+                style = MaterialTheme.typography.body1.copy(fontSize = 24.sp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         },
         elevation = 0.dp,
         actions = {
             action
         },
-        navigationIcon = backButtonAction
+        navigationIcon = backButtonAction,
+        backgroundColor = MaterialTheme.colors.surface
     )
 
 }

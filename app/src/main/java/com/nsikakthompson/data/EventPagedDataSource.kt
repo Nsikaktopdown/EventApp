@@ -15,7 +15,7 @@ class EventPagedDataSource(
     private val dataSource: AppRemoteDataSource,
 ) : PagingSource<Int, EventEntity>() {
 
-    private val PAGE_SIZE = 10
+    private val PAGE_SIZE = 8
     override fun getRefreshKey(state: PagingState<Int, EventEntity>): Int? = state.anchorPosition
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, EventEntity> {
@@ -27,7 +27,7 @@ class EventPagedDataSource(
                     EventEntity(
                         it.id,
                         it.name,
-                        it.images[0].url,
+                        it.images[2].url,
                         it.sales.public.startDateTime ?: "",
                         it.sales.public.endDateTime ?: "",
                         it.promoter?.name ?: "",
