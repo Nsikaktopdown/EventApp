@@ -26,7 +26,6 @@ fun AppNavigationGraph(
     ) {
         composable(AppDestinations.EVENT_LIST_ROUTE) {
             EventRoute(
-                eventViewModel = getViewModel(),
                 navController = navController
             )
         }

@@ -1,17 +1,18 @@
 package com.nsikakthompson.presentation.compose.screen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.paging.LoadState
@@ -25,19 +26,24 @@ import com.nsikakthompson.presentation.compose.widget.EventItem
 import com.nsikakthompson.presentation.compose.widget.EventListDivider
 import com.nsikakthompson.presentation.compose.widget.TopBar
 import com.nsikakthompson.presentation.viewmodel.EventUIState
+import com.nsikakthompson.presentation.viewmodel.EventViewModel
 import kotlinx.coroutines.flow.Flow
+import org.koin.androidx.compose.getViewModel
 
 
 @Composable
 fun EventListScreen(
-    uiState: EventUIState,
-    scaffoldState: ScaffoldState,
+    eventViewModel: EventViewModel = getViewModel(),
     navController: NavController,
-    onRefreshEvents: () -> Unit
 ) {
-    Scaffold(scaffoldState = scaffoldState,
+
+    val uiState = eventViewModel.uiState.collectAsState().value
+
+    Scaffold(
         topBar = {
-            TopBar(title = stringResource(id = R.string.popular_event))
+            TopBar(title = stringResource(id = R.string.popular_event), action = {
+                WishListCounter()
+            })
         }) {
 
         LoadingContent(
@@ -47,7 +53,9 @@ fun EventListScreen(
             },
             emptyContent = { FullScreenLoading() },
             loading = uiState.isLoading,
-            onRefresh = onRefreshEvents,
+            onRefresh = {
+                eventViewModel.refreshEvents()
+            },
             content = {
                 when (uiState) {
                     is EventUIState.HasEvent -> {
@@ -66,6 +74,18 @@ fun EventListScreen(
     }
 }
 
+
+@Preview(showBackground = false)
+@Composable
+fun WishListCounter() {
+    BadgedBox(badge = { Badge { Text("8") } }) {
+        Icon(
+            Icons.Filled.Favorite,
+            tint = Color.White,
+            contentDescription = "Favorite"
+        )
+    }
+}
 
 @Composable
 fun EventList(

@@ -7,13 +7,7 @@ import kotlinx.coroutines.withContext
 
 class AddToWishListUseCase(
     private val eventRepository: EventRepository,
-    private val dispatcherProvider: DispatcherProvider
-) : SuspendUseCase<EventEntity, Any> {
-    override suspend fun call(input: EventEntity): Any {
-        withContext(dispatcherProvider.getIO()) {
-            eventRepository.addToWishList(input)
-        }
-        return Any()
-    }
+) {
+    suspend fun call(input: EventEntity) = eventRepository.addToWishList(input)
 
 }

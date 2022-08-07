@@ -74,12 +74,18 @@ class EventViewModel(
 
     private val viewModelState = MutableStateFlow(EventViewModelState(isLoading = false))
 
+    private val _wishListState = MutableStateFlow(false)
+
     private val _event: MutableLiveData<EventEntity> = MutableLiveData()
     var event: LiveData<EventEntity> = _event
 
-    private val _wishListCount: MutableLiveData<Int> = MutableLiveData()
-    var wishCount: LiveData<Int> = _wishListCount
+    private val _wishListCountState = MutableStateFlow(0)
 
+    var wishCount = _wishListCountState.stateIn(
+        viewModelScope,
+        SharingStarted.Lazily,
+        _wishListCountState.value
+    )
 
     // UI state exposed to the UI
     val uiState = viewModelState
@@ -90,10 +96,15 @@ class EventViewModel(
             viewModelState.value.toUiState()
         )
 
+    val wishListUIState = _wishListState
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Lazily, _wishListState.value
+        )
 
     init {
         viewModelScope.launch(dispatcher) {
-            val events =  getEventListUseCase.call()
+            val events = getEventListUseCase.call()
             viewModelState.update {
                 it.copy(
                     eventFeed = events
@@ -106,7 +117,8 @@ class EventViewModel(
         viewModelState.update { it.copy(isLoading = true) }
         viewModelScope.launch(dispatcher) {
             val events = getEventListUseCase.call()
-            viewModelState.update { it.copy(eventFeed = events)
+            viewModelState.update {
+                it.copy(eventFeed = events)
             }
         }
 
@@ -117,28 +129,25 @@ class EventViewModel(
     }
 
 
-    val wishList by lazy {
-        getEventListUseCase.call(
-        )
-    }
-
     fun addWishList(event: EventEntity) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             try {
                 addToWishListUseCase.call(event)
+                _wishListState.value = true
             } catch (error: Throwable) {
+                _wishListState.value = false
                 Timber.e(error.message)
             }
-
         }
-        getEventById(event.id)
     }
 
     fun removeWishList(event: EventEntity) {
         viewModelScope.launch {
             try {
                 removeFromWishListUseCase.call(event)
+                _wishListState.value = false
             } catch (error: Throwable) {
+                _wishListState.value = false
                 Timber.e(error.message)
             }
 
@@ -154,7 +163,7 @@ class EventViewModel(
 
     fun getWishCount() {
         viewModelScope.launch {
-            _wishListCount.postValue(getWishListCountUseCase.call())
+            _wishListCountState.value = getWishListCountUseCase.call()
         }
 
     }

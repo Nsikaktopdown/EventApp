@@ -1,14 +1,9 @@
 package com.nsikakthompson.data
 
 import com.nsikakthompson.api.ApiService
-import com.nsikakthompson.api.BaseDataSource
 import com.nsikakthompson.api.Config
-import com.nsikakthompson.api.EventResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
-class AppRemoteDataSource(private var apiService: ApiService) : BaseDataSource() {
+class AppRemoteDataSource(private var apiService: ApiService)  {
     suspend fun fetchEvents(page: Int? = null, size: Int? = null) =
         apiService.getEvent(page, size, Config.API_KEY)
 

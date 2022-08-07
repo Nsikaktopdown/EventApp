@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -29,6 +30,8 @@ import com.nsikakthompson.formatTime
 import com.nsikakthompson.presentation.compose.data.FakeEventProvider
 import com.nsikakthompson.presentation.compose.widget.DetailItem
 import com.nsikakthompson.presentation.compose.widget.TopBar
+import com.nsikakthompson.presentation.viewmodel.EventViewModel
+import org.koin.androidx.compose.getViewModel
 import retrofit2.HttpException
 import java.io.IOException
 import java.lang.RuntimeException
@@ -53,19 +56,29 @@ fun EventDetailScreenPreview(
 @Composable
 fun EventDetailScreen(
     event: EventEntity = FakeEventProvider.getEvent,
-    navController: NavController
+    navController: NavController,
+    viewModel: EventViewModel = getViewModel()
 ) {
+
+    val isAdded = viewModel.wishListUIState.collectAsState()
 
     Scaffold(
         topBar = {
             TopBar(title = event.name, onBackPressed = { navController.popBackStack() })
         },
         floatingActionButton = {
+
             FloatingActionButton(
-                onClick = {},
+                onClick = {
+                    if (!isAdded.value) viewModel.addWishList(event)
+                    else viewModel.removeWishList(event)
+                },
             ) {
-                Icon(Icons.Filled.FavoriteBorder, "bookmark")
+                if (isAdded.value) Icon(Icons.Filled.Favorite, "bookmark")
+                else Icon(Icons.Filled.FavoriteBorder, "bookmark")
             }
+
+
         }
     ) {
         Surface(modifier = Modifier.fillMaxSize()) {

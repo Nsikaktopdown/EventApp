@@ -7,19 +7,19 @@ import com.nsikakthompson.cache.EventDao
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.domain.EventRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class EventRepositoryImpl(
     private var dao: EventDao,
-    private var appRemoteDataSource: AppRemoteDataSource
 ) : EventRepository {
-    override suspend fun getEvents(page: Int, size: Int) = appRemoteDataSource.fetchEvents(page = page, size)
 
     override suspend fun addToWishList(eventEntity: EventEntity) {
         return dao.insert(eventEntity)
     }
 
     override suspend fun removeWishList(eventEntity: EventEntity) {
-        return dao.updateIsWish(false, eventEntity.id)
+        dao.delete(eventEntity)
     }
 
     override suspend fun getEventById(event_id: String): EventEntity {
@@ -31,5 +31,6 @@ class EventRepositoryImpl(
     }
 
 
-
 }
+
+object Empty

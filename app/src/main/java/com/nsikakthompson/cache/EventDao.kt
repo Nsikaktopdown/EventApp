@@ -5,11 +5,12 @@ import com.nsikakthompson.api.Event
 import androidx.paging.DataSource
 import androidx.room.*
 import com.nsikakthompson.data.Result
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EventDao {
     @Query("SELECT * FROM event")
-    fun getEvents(): LiveData<List<EventEntity>>
+    fun getEvents(): Flow<List<EventEntity>>
 
     @Query("SELECT * FROM event WHERE isWish = :isWish")
     fun getPagedEvents(isWish: Boolean): DataSource.Factory<Int, EventEntity>
