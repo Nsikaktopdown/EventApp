@@ -2,91 +2,165 @@ package com.nsikakthompson.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations.switchMap
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagedList
+import androidx.paging.PagingData
 import com.nsikakthompson.cache.EventEntity
-import com.nsikakthompson.data.AppPageDataSourceFactory
-import com.nsikakthompson.domain.EventRepository
 import com.nsikakthompson.domain.usecase.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
+
+
+/**
+ * Ui state for the event screen
+ */
+sealed interface EventUIState {
+    val isLoading: Boolean
+    val errorMessage: String
+
+    data class HasEvent(
+        override val isLoading: Boolean,
+        override val errorMessage: String,
+        val eventFeed: Flow<PagingData<EventEntity>>
+    ) : EventUIState
+
+    data class NoEvent(
+        override val isLoading: Boolean,
+        override val errorMessage: String
+    ) : EventUIState
+}
+
+/**
+ * internal representation of the event list route
+ */
+
+private data class EventViewModelState(
+    val eventFeed: Flow<PagingData<EventEntity>>? = null,
+    val isLoading: Boolean = false,
+    val errorMessage: String = ""
+) {
+    /**
+     * Converts this [EventViewModelState] into a more strongly typed [EventUIState] for driving
+     * the ui.
+     */
+    fun toUiState(): EventUIState =
+        if (eventFeed == null) {
+            EventUIState.NoEvent(
+                isLoading = isLoading,
+                errorMessage = errorMessage
+            )
+        } else {
+            EventUIState.HasEvent(
+                isLoading = isLoading,
+                errorMessage = errorMessage,
+                eventFeed = eventFeed
+            )
+        }
+}
+
 
 class EventViewModel(
     private var getEventListUseCase: GetEventListUseCase,
     private var addToWishListUseCase: AddToWishListUseCase,
     private var removeFromWishListUseCase: RemoveFromWishListUseCase,
     private var getWishListCountUseCase: GetWishListCountUseCase,
-    private var getEventByIdUseCase: GetEventByIdUseCase,
-    private var ioCoroutineScope: CoroutineScope,
-    private var appPageDataSourceFactory: AppPageDataSourceFactory
-) : BaseViewModel<EventState>() {
+    private var getEventIsWishedUseCase: GetEventIsWishedUseCase,
+    private var dispatcher: CoroutineDispatcher = Dispatchers.IO,
+) : ViewModel() {
 
+    private val viewModelState = MutableStateFlow(EventViewModelState(isLoading = false))
+
+    private val _wishListState = MutableStateFlow(false)
 
     private val _event: MutableLiveData<EventEntity> = MutableLiveData()
     var event: LiveData<EventEntity> = _event
 
-    private val _wishListCount: MutableLiveData<Int> = MutableLiveData()
-    var wishCount: LiveData<Int> = _wishListCount
+    private val _wishListCountState = MutableStateFlow(0)
 
-    val networkState: LiveData<NetworkState>? = switchMap(appPageDataSourceFactory.getSource()) { it.getNetworkState() }
+    var wishCount = _wishListCountState.stateIn(
+        viewModelScope,
+        SharingStarted.Lazily,
+        _wishListCountState.value
+    )
 
-
-    val events by lazy {
-        getEventListUseCase.call(
-            GetEventListUseCase.Params(
-                ioCoroutineScope,
-                false
-            )
+    // UI state exposed to the UI
+    val uiState = viewModelState
+        .map { it.toUiState() }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            viewModelState.value.toUiState()
         )
+
+    val wishListUIState = _wishListState
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Lazily,
+            _wishListState.value
+        )
+
+    init {
+        viewModelScope.launch(dispatcher) {
+            val events = getEventListUseCase.call()
+            viewModelState.update {
+                it.copy(
+                    eventFeed = events
+                )
+            }
+        }
     }
 
+    fun refreshEvents() {
+        viewModelState.update { it.copy(isLoading = true) }
+        viewModelScope.launch(dispatcher) {
+            val events = getEventListUseCase.call()
+            viewModelState.update {
+                it.copy(eventFeed = events)
+            }
+        }
 
-    val wishList by lazy {
-        getEventListUseCase.call(
-            GetEventListUseCase.Params(
-                ioCoroutineScope,
-                true
-            )
-        )
     }
+
 
     fun addWishList(event: EventEntity) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             try {
                 addToWishListUseCase.call(event)
+                _wishListState.value = true
             } catch (error: Throwable) {
+                _wishListState.value = false
                 Timber.e(error.message)
             }
-
         }
-        getEventById(event.id)
     }
 
     fun removeWishList(event: EventEntity) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             try {
                 removeFromWishListUseCase.call(event)
+                _wishListState.value = false
             } catch (error: Throwable) {
+                _wishListState.value = false
                 Timber.e(error.message)
             }
 
         }
     }
 
-    fun getEventById(event_id: String) {
-        viewModelScope.launch {
-            _event.postValue(getEventByIdUseCase.call(event_id))
+    fun getEventIsWished(event_id: String) {
+        viewModelScope.launch(dispatcher) {
+            _wishListState.value = getEventIsWishedUseCase.call(event_id)
         }
     }
 
 
     fun getWishCount() {
         viewModelScope.launch {
-            _wishListCount.postValue(getWishListCountUseCase.call())
+            _wishListCountState.value = getWishListCountUseCase.call()
         }
 
     }
@@ -101,16 +175,4 @@ class EventViewModel(
 
 }
 
-//sealed class EventState {
-//    object Loading : EventState()
-//    object Success : EventState()
-//    data class data(val events: LiveData<PagedList<EventEntity>>) : EventState()
-//    data class Error(val message: String) : EventState()
-//}
 
-enum class EventState {
-    RUNNING,
-    SUCCESS,
-    FAILED
-}
-data class NetworkState constructor(var state: EventState, var message: String? = null )

@@ -10,9 +10,9 @@ data class Event(
     @SerializedName("id") var id: String,
     @SerializedName("images") var images: List<Images>,
     @SerializedName("sales") var sales: Sales,
-    @SerializedName("promoter") var promoter: Promoter,
+    @SerializedName("promoter") var promoter: Promoter?,
     @SerializedName("info") var info: String,
-    @SerializedName("priceRanges") var priceRanges: List<PriceRanges>,
+    @SerializedName("priceRanges") var priceRanges: List<PriceRanges>?,
     @SerializedName("_embedded") var embedded:Embedded
 )
 

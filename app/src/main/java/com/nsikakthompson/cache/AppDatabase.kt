@@ -34,6 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
                         super.onCreate(db)
                     }
                 })
+                .fallbackToDestructiveMigration()
                 .build()
         }
     }

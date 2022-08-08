@@ -14,7 +14,6 @@ var networkModule = module {
     val CONNECT_TIMEOUT = 50L
     val READ_TIMEOUT = 50L
     val WRITE_TIMEOUT = 10L
-    val API_KEY = "A4yqiIGWfj9lF4xbP4lwlXA0NRwnckkx"
 
     // lateinit var retrofit: Retrofit
     single {
@@ -31,7 +30,7 @@ var networkModule = module {
     }
 
     single {
-        var  retrofit = Retrofit.Builder()
+        val  retrofit = Retrofit.Builder()
             .client(get())
             .baseUrl(HOST)
             .addConverterFactory(GsonConverterFactory.create())
@@ -40,7 +39,7 @@ var networkModule = module {
     }
 
     single{
-        var api  = (get() as Retrofit).create(ApiService::class.java)
+        val api  = (get() as Retrofit).create(ApiService::class.java)
         api
     }
 }
