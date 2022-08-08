@@ -4,17 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -23,7 +18,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.nsikakthompson.R
-import com.nsikakthompson.api.ApiService
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.formatDate
 import com.nsikakthompson.formatTime
@@ -32,9 +26,6 @@ import com.nsikakthompson.presentation.compose.widget.DetailItem
 import com.nsikakthompson.presentation.compose.widget.TopBar
 import com.nsikakthompson.presentation.viewmodel.EventViewModel
 import org.koin.androidx.compose.getViewModel
-import retrofit2.HttpException
-import java.io.IOException
-import java.lang.RuntimeException
 
 
 class EventProvider : PreviewParameterProvider<EventEntity> {
@@ -61,6 +52,7 @@ fun EventDetailScreen(
 ) {
 
     val isAdded = viewModel.wishListUIState.collectAsState()
+    viewModel.getEventIsWished(event.id)
 
     Scaffold(
         topBar = {

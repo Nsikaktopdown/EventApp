@@ -4,7 +4,6 @@ import android.net.ConnectivityManager
 import androidx.core.content.ContextCompat.getSystemService
 import com.nsikakthompson.App
 import com.nsikakthompson.cache.AppDatabase
-import com.nsikakthompson.domain.EventRepository
 import com.nsikakthompson.domain.usecase.*
 import com.nsikakthompson.utils.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
@@ -80,7 +79,7 @@ var dataModule = module {
     }
 
     single {
-        var getEventByIdUseCase = GetEventByIdUseCase(get(), get())
+        var getEventByIdUseCase = GetEventIsWishedUseCase(get())
         getEventByIdUseCase
     }
     single {

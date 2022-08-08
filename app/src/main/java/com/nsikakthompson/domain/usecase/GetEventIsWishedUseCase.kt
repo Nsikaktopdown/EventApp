@@ -2,9 +2,9 @@ package com.nsikakthompson.domain.usecase
 
 import com.nsikakthompson.data.EventRepository
 
-class GetWishListCountUseCase(
+class GetEventIsWishedUseCase(
     private val eventRepository: EventRepository
 ) {
-    suspend fun call(): Int = eventRepository.getCount()
+    suspend fun call(input: String): Boolean = eventRepository.getEventIsWished(input)
 
 }

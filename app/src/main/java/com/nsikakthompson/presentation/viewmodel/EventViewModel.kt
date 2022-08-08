@@ -68,7 +68,7 @@ class EventViewModel(
     private var addToWishListUseCase: AddToWishListUseCase,
     private var removeFromWishListUseCase: RemoveFromWishListUseCase,
     private var getWishListCountUseCase: GetWishListCountUseCase,
-    private var getEventByIdUseCase: GetEventByIdUseCase,
+    private var getEventIsWishedUseCase: GetEventIsWishedUseCase,
     private var dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
 
@@ -125,10 +125,6 @@ class EventViewModel(
 
     }
 
-    val events by lazy {
-        getEventListUseCase.call()
-    }
-
 
     fun addWishList(event: EventEntity) {
         viewModelScope.launch(dispatcher) {
@@ -143,7 +139,7 @@ class EventViewModel(
     }
 
     fun removeWishList(event: EventEntity) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             try {
                 removeFromWishListUseCase.call(event)
                 _wishListState.value = false
@@ -155,9 +151,9 @@ class EventViewModel(
         }
     }
 
-    fun getEventById(event_id: String) {
-        viewModelScope.launch {
-            _event.postValue(getEventByIdUseCase.call(event_id))
+    fun getEventIsWished(event_id: String) {
+        viewModelScope.launch(dispatcher) {
+            _wishListState.value = getEventIsWishedUseCase.call(event_id)
         }
     }
 

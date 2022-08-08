@@ -2,7 +2,6 @@ package com.nsikakthompson.data
 
 import com.nsikakthompson.cache.EventDao
 import com.nsikakthompson.cache.EventEntity
-import com.nsikakthompson.domain.EventRepository
 
 class EventRepositoryImpl(
     private var dao: EventDao,
@@ -16,8 +15,8 @@ class EventRepositoryImpl(
         dao.delete(eventEntity)
     }
 
-    override suspend fun getEventById(event_id: String): EventEntity {
-        return dao.getEventById(event_id)
+    override suspend fun getEventIsWished(event_id: String): Boolean{
+        return dao.isWished(event_id)
     }
 
     override suspend fun getCount(): Int {

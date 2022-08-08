@@ -27,8 +27,8 @@ interface EventDao {
     @Query("UPDATE event SET isWish = :isWish WHERE id = :event_id ")
     suspend fun updateIsWish(isWish: Boolean, event_id: String)
 
-    @Query("SELECT * FROM event WHERE id = :event_id")
-    suspend fun getEventById(event_id: String): EventEntity
+    @Query("SELECT EXISTS(SELECT * FROM event WHERE id = :event_id)")
+    suspend fun isWished(event_id: String): Boolean
 
     @Query("SELECT COUNT(id) FROM event")
     suspend fun getCount() : Int
