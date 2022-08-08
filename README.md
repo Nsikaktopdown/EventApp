@@ -1,7 +1,7 @@
-# Android Clean architecture + Paging Library + Kotlin Flow Boilerplate
+# Event App - Jetpack Compose
 
 
-This is a simple event App using [TicketMasterApi](https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/) with pagination concepts using [PagingLibrary](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) from Jetpack and Kotlin Coroutines + Flow. 
+This is a simple event App using [TicketMasterApi](https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/) with pagination concepts using [PagingLibrary](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) with Jetpack Compose and Kotlin Coroutines + Flow. 
 
 
 ## Languages, libraries and tools used
@@ -24,13 +24,16 @@ This is a simple event App using [TicketMasterApi](https://developer.ticketmaste
 <table style="padding:10px">
   <tr>
     <td> 
-         <img src="https://github.com/Nsikaktopdown/AndroidCleanBase/blob/master/screenshot/Screenshot_20210802_182345.png"  alt="1" width = 279px height = 540px ></td>
+         <img src="https://user-images.githubusercontent.com/16048595/183443976-92d511e2-6cb9-42c2-964e-e99061ea7412.png"  alt="1" width = 340px height = 500px ></td>
       
- <td><img src="https://github.com/Nsikaktopdown/AndroidCleanBase/blob/master/screenshot/Screenshot_20210802_182356.png" align="right" alt="2" width = 279px height = 540px></td>
+ <td><img src="https://user-images.githubusercontent.com/16048595/183444007-23bec7da-165b-4f89-a5df-2da3cb92bce2.png" align="right" alt="2" width = 340px height = 500px></td>
   
+  <td><img src="https://user-images.githubusercontent.com/16048595/183444012-e8fcfee4-7146-4ca2-bc2b-2efd18c347fe.png" align="right" alt="2" width = 340px height = 500px></td>
+  <td><img src="https://user-images.githubusercontent.com/16048595/183444021-0dcee1b3-3639-49bb-88f5-3b2591222a89.png" align="right" alt="2" width = 340px height = 500px></td>
    <!--<td><img src="./Scshot/trip_end.png" align="right" alt="4" width =  279px height = 496px></td>-->
   </tr>
  </table>
+
 
 
 # Architecture
