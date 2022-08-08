@@ -99,7 +99,8 @@ class EventViewModel(
     val wishListUIState = _wishListState
         .stateIn(
             viewModelScope,
-            SharingStarted.Lazily, _wishListState.value
+            SharingStarted.Lazily,
+            _wishListState.value
         )
 
     init {

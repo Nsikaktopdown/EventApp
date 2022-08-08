@@ -1,6 +1,9 @@
 package com.nsikakthompson.presentation.compose.widget
 
 import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -12,25 +15,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nsikakthompson.R
+import com.nsikakthompson.presentation.compose.screen.WishListCounter
+import com.nsikakthompson.presentation.compose.tools.LayoutTheme
 
 
 @Preview
 @Composable
 fun TopBarPreview() {
-    TopBar(title = "TopBar", onBackPressed = { })
+    LayoutTheme {
+        TopBar(title = "TopBar", onBackPressed = { }, actions = {
+            WishListCounter()
+        })
+    }
 
 }
 
-@Preview("Dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview("Dark theme", uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun TopBarDarkPreview() {
-    TopBar(title = "TopBar", onBackPressed = { })
+   LayoutTheme {
+       TopBar(title = "TopBar", onBackPressed = { }, actions = {
+           WishListCounter()
+       })
+   }
 }
 
 @Composable
 fun TopBar(
     title: String,
-    action: @Composable (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit? = { },
     onBackPressed: (() -> Unit)? = null
 ) {
 
@@ -43,14 +56,14 @@ fun TopBar(
         title = {
             Text(
                 text = title,
-                style = MaterialTheme.typography.body1.copy(fontSize = 24.sp),
+                style = MaterialTheme.typography.body1.copy(fontSize = 20.sp),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         },
         elevation = 0.dp,
         actions = {
-            action
+            actions.invoke(this)
         },
         navigationIcon = backButtonAction,
         backgroundColor = MaterialTheme.colors.surface

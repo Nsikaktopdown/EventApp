@@ -1,5 +1,6 @@
 package com.nsikakthompson.presentation.compose.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -22,6 +23,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.nsikakthompson.R
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.presentation.compose.navigation.AppDestinations
+import com.nsikakthompson.presentation.compose.tools.purple500
 import com.nsikakthompson.presentation.compose.widget.EventItem
 import com.nsikakthompson.presentation.compose.widget.EventListDivider
 import com.nsikakthompson.presentation.compose.widget.TopBar
@@ -38,11 +40,16 @@ fun EventListScreen(
 ) {
 
     val uiState = eventViewModel.uiState.collectAsState().value
+    val wishCount = eventViewModel.wishCount.collectAsState()
+    eventViewModel.getWishCount()
+    Log.e("EventListScreen", wishCount.value.toString())
 
     Scaffold(
         topBar = {
-            TopBar(title = stringResource(id = R.string.popular_event), action = {
-                WishListCounter()
+            TopBar(title = stringResource(id = R.string.popular_event), actions = {
+                Row {
+                    WishListCounter(count = wishCount.value)
+                }
             })
         }) {
 
@@ -77,13 +84,21 @@ fun EventListScreen(
 
 @Preview(showBackground = false)
 @Composable
-fun WishListCounter() {
-    BadgedBox(badge = { Badge { Text("8") } }) {
-        Icon(
-            Icons.Filled.Favorite,
-            tint = Color.White,
-            contentDescription = "Favorite"
-        )
+fun WishListCounter(count: Int = 0) {
+    Row {
+        BadgedBox(badge = {
+            if (count > 0) {
+                Badge(backgroundColor = purple500) { Text(count.toString()) }
+            }
+        }) {
+            Icon(
+                Icons.Filled.Favorite,
+                tint = Color.LightGray,
+                contentDescription = "Favorite"
+            )
+        }
+
+        Spacer(modifier = Modifier.width(20.dp))
     }
 }
 

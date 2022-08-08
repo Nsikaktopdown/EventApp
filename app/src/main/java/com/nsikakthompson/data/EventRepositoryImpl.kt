@@ -1,14 +1,8 @@
 package com.nsikakthompson.data
 
-import androidx.lifecycle.LiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import com.nsikakthompson.cache.EventDao
 import com.nsikakthompson.cache.EventEntity
 import com.nsikakthompson.domain.EventRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class EventRepositoryImpl(
     private var dao: EventDao,
@@ -27,7 +21,7 @@ class EventRepositoryImpl(
     }
 
     override suspend fun getCount(): Int {
-        return dao.getCount(true)
+        return dao.getCount()
     }
 
 

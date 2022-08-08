@@ -1,8 +1,6 @@
 package com.nsikakthompson.domain
 
-import com.nsikakthompson.api.EventResponse
 import com.nsikakthompson.cache.EventEntity
-import com.nsikakthompson.data.Empty
 
 interface EventRepository {
     suspend fun addToWishList(eventEntity: EventEntity)
