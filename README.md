@@ -24,12 +24,12 @@ This is a simple event App using [TicketMasterApi](https://developer.ticketmaste
 <table style="padding:10px">
   <tr>
     <td> 
-         <img src="https://user-images.githubusercontent.com/16048595/183443976-92d511e2-6cb9-42c2-964e-e99061ea7412.png"  alt="1" width = 340px height = 500px ></td>
+         <img src="https://user-images.githubusercontent.com/16048595/183443976-92d511e2-6cb9-42c2-964e-e99061ea7412.png"  alt="1" width = 340px height = 450px ></td>
       
- <td><img src="https://user-images.githubusercontent.com/16048595/183444007-23bec7da-165b-4f89-a5df-2da3cb92bce2.png" align="right" alt="2" width = 340px height = 500px></td>
+ <td><img src="https://user-images.githubusercontent.com/16048595/183444007-23bec7da-165b-4f89-a5df-2da3cb92bce2.png" align="right" alt="2" width = 340px height = 450px></td>
   
-  <td><img src="https://user-images.githubusercontent.com/16048595/183444012-e8fcfee4-7146-4ca2-bc2b-2efd18c347fe.png" align="right" alt="2" width = 340px height = 500px></td>
-  <td><img src="https://user-images.githubusercontent.com/16048595/183444021-0dcee1b3-3639-49bb-88f5-3b2591222a89.png" align="right" alt="2" width = 340px height = 500px></td>
+  <td><img src="https://user-images.githubusercontent.com/16048595/183444012-e8fcfee4-7146-4ca2-bc2b-2efd18c347fe.png" align="right" alt="2" width = 340px height = 450px></td>
+  <td><img src="https://user-images.githubusercontent.com/16048595/183444021-0dcee1b3-3639-49bb-88f5-3b2591222a89.png" align="right" alt="2" width = 340px height = 450px></td>
    <!--<td><img src="./Scshot/trip_end.png" align="right" alt="4" width =  279px height = 496px></td>-->
   </tr>
  </table>
